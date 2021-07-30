@@ -21,7 +21,6 @@ contract Exc is IExc{
     /// interface for more details about orders and sides.
     mapping(bytes32 => Token) public tokens;
     bytes32[] public tokenList;
-    address private factory;
     bytes32 constant PIN = bytes32('PIN');
     
     /// @notice an event representing all the needed info regarding a new trade on the exchange
@@ -35,12 +34,6 @@ contract Exc is IExc{
         uint price,
         uint date
     );
-    
-    /// @notice a constructor for this smart contract, used during deployment. No need to edit
-    /// @param fac the address of the factory contract
-    constructor(address fac) public {
-        factory = fac;
-    }
     
     // todo: implement getOrders, which simply returns the orders for a specific token on a specific side
     function getOrders(
