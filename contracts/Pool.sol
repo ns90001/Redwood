@@ -24,4 +24,12 @@ contract Pool {
     }
     
     // todo: implement wallet functionality and trading functionality
+
+    function testing(uint testMe) public view returns (uint) {
+        if (testMe == 1) {
+            return 5;
+        } else {
+            return 3;
+        }
+    }
 }

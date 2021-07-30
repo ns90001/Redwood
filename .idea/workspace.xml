@@ -6,30 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="40f5dbb2-ba64-43df-9e44-8eb22f1d9956" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/Exc.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/Exc.sol" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/Fac.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/Fac.sol" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/IExc.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/IExc.sol" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/contracts/Fac.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/Factory.sol" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/contracts/Pool.sol" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/Pool.sol" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Dai.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Dai_metadata.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Dex.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Dex_metadata.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Exc.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/artifacts/Exc.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Exc_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/artifacts/Exc_metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Fact.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Fact_metadata.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Factory.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/artifacts/Factory.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Factory_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/artifacts/Factory_metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/IExc.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/artifacts/IExc.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Migrations.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Migrations_metadata.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Pin.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Pin_metadata.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Pool.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/artifacts/Pool.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Pool_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/contracts/artifacts/Pool_metadata.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Zrx.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/contracts/artifacts/Zrx_metadata.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/dex_test.js" beforeDir="false" afterPath="$PROJECT_DIR$/test/dex_test.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +50,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../redwoodSolution" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
@@ -87,6 +65,17 @@
     </key>
   </component>
   <component name="RunManager">
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="dex.createMarketOrder" type="SolidityConfigurationType" factoryName="Solidity" temporary="true" show_console_on_std_err="false" show_console_on_std_out="false">
       <module name="crypbloc" />
       <option name="VMParameters" />
@@ -153,7 +142,12 @@
       <workItem from="1626161555589" duration="42000" />
       <workItem from="1626565177286" duration="1692000" />
       <workItem from="1626587231227" duration="2625000" />
-      <workItem from="1626590190354" duration="1582000" />
+      <workItem from="1626590190354" duration="2143000" />
+      <workItem from="1626935248087" duration="3753000" />
+      <workItem from="1627154661696" duration="1220000" />
+      <workItem from="1627443790020" duration="724000" />
+      <workItem from="1627512481473" duration="8000" />
+      <workItem from="1627638145996" duration="402000" />
     </task>
     <servers />
   </component>
