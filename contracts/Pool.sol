@@ -7,7 +7,6 @@ import '../contracts/libraries/math/SafeMath.sol';
 contract Pool {
     
     /// @notice some parameters for the pool to function correctly
-    address private factory;
     address private tokenP;
     address private token1;
     address private dex;
