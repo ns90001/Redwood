@@ -1,4 +1,4 @@
-onst Pin = artifacts.require('dummy/Pin.sol');
+const Pin = artifacts.require('dummy/Pin.sol');
 const Zrx = artifacts.require('dummy/Zrx.sol');
 const Exc = artifacts.require('Exc.sol');
 const Fac = artifacts.require('Factory.sol')
