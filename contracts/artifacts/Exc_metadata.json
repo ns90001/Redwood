@@ -326,14 +326,16 @@
 			}
 		},
 		"userdoc": {
-			"methods": {}
+			"methods": {
+				"constructor": "a constructor for this smart contract, used during deployment. No need to edit"
+			}
 		}
 	},
 	"settings": {
 		"compilationTarget": {
 			"contracts/Exc.sol": "Exc"
 		},
-		"evmVersion": "constantinople",
+		"evmVersion": "byzantium",
 		"libraries": {},
 		"optimizer": {
 			"enabled": false,
@@ -343,15 +345,15 @@
 	},
 	"sources": {
 		"contracts/Exc.sol": {
-			"keccak256": "0xa0fc2209e84a67a06ac630638d32c867e1af137aa291bac0e53f05aa3cd22184",
+			"keccak256": "0xe198b4af8a87aa851a0a8722582c48ce7d4cafccb3eb8157b95387af4dfd1b48",
 			"urls": [
-				"bzzr://bda97700e43a38e975b30ee637d2e605e12e1a174cd36fa9ff8c6124a68d6f03"
+				"bzzr://283496c5c2a19bd2d4f7f2f838c3d6b70af039add62a00d5d4be3897f5a47fb3"
 			]
 		},
 		"contracts/IExc.sol": {
-			"keccak256": "0x70cfd229f740886ae980aefe80605fccdb1ae3987edeafffca9c663f045b87a8",
+			"keccak256": "0xe5d19c3fdea91ae5bdbeaee68b48ea5b5eb213d5f2cab3879d6c638d63ba3099",
 			"urls": [
-				"bzzr://c4021060be9fe362571005c3126d7fbacc1e9ab5efbd4c64240d00723d6c4a21"
+				"bzzr://ecd2abe25c8a754cbbc4a1165aaa7cd968f708ff7c0eb04a2de5b8d05775279f"
 			]
 		},
 		"contracts/libraries/GSN/Context.sol": {

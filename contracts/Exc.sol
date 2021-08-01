@@ -49,6 +49,7 @@ contract Exc is IExc{
       external 
       view
       returns(Order[] memory) {
+          
     }
 
     // todo: implement getTokens, which simply returns an array of the tokens currently traded on in the exchange
@@ -56,6 +57,11 @@ contract Exc is IExc{
       external 
       view 
       returns(Token[] memory) {
+          Token[] memory returnTokens = new Token[](tokenList.length); 
+          for (uint i = 0; i < tokenList.length; i++) {
+              returnTokens[i] = tokens[tokenList[i]];
+          }
+          return returnTokens;
     }
     
     // todo: implement addToken, which should add the token desired to the exchange by interacting with tokenList and tokens
@@ -63,6 +69,10 @@ contract Exc is IExc{
         bytes32 ticker,
         address tokenAddress)
         external {
+            Token memory newToken = tokens[ticker];
+            newToken.ticker = ticker;
+            newToken.tokenAddress = tokenAddress;
+            tokenList.push(ticker);
     }
     
     // todo: implement deposit, which should deposit a certain amount of tokens from a trader to their on-exchange wallet,
@@ -72,6 +82,7 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external {
+            
     }
     
     // todo: implement withdraw, which should do the opposite of deposit. The trader should not be able to withdraw more than
