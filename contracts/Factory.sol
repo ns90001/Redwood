@@ -30,6 +30,16 @@ contract Factory {
         // released on Piazza a few days after project release. Before that, you are encouraged to try your hand at
         // making the code yourself. You will also want to initialize the pool properly, and record the pair created 
         // properly in this contract.
+        bytes memory bytecode = type(Pool).creationCode;
+        bytes32 salt = keccak256(abi.encodePacked(token0, token1));
+        assembly {
+            pair := create2(0, add(bytecode, 32), mload(bytecode), salt)
+        }
+        Pool(pair).initialize(token0, token1, dex, whichP, tickerQ, tickerT);
+        getPair[token0][token1] = pair;
+        getPair[token1][token0] = pair;
+        allPairs.push(pair);
+        emit PairCreated(token0, token1, pair, allPairs.length);
     }
     
 }

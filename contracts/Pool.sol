@@ -6,8 +6,7 @@ import '../contracts/libraries/math/SafeMath.sol';
 
 contract Pool {
     
-    /// @notice some parameters for the pool to function correctly
-    address private factory;
+    /// @notice some parameters for the pool to function correctly, feel free to add more as needed
     address private tokenP;
     address private token1;
     address private dex;
@@ -24,4 +23,12 @@ contract Pool {
     }
     
     // todo: implement wallet functionality and trading functionality
+
+    function testing(uint testMe) public view returns (uint) {
+        if (testMe == 1) {
+            return 5;
+        } else {
+            return 3;
+        }
+    }
 }
