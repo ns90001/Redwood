@@ -94,7 +94,7 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external {
-            
+        
     }
     
     // todo: implement withdraw, which should do the opposite of deposit. The trader should not be able to withdraw more than
@@ -117,6 +117,7 @@ contract Exc is IExc{
         uint price,
         Side side)
         external {
+            
     }
     
     // todo: implement deleteLimitOrder, which will delete a limit order from the orderBook as long as the same trader is deleting

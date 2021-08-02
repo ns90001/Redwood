@@ -25,24 +25,32 @@ contract Pool {
         tokenP = _token0;
         token1 = _token1;
         dex = _dex;
-        tokenPT = _tickerQ;
-        token1T = _tickerT;
+        
+        if (whichP == 0) {
+            tokenPT = _tickerQ;
+            token1T = _tickerT;
+        } else {
+            tokenPT = _tickerT;
+            token1T = _tickerQ;
+        }
+        
     }
     
     // todo: implement wallet functionality and trading functionality
 
     // todo: implement withdraw and deposit functions so that a single deposit and a single withdraw can unstake
     // both tokens at the same time
-    function deposit(uint tokenAmount, uint pineAmount){
+    function deposit(uint tokenAmount, uint pineAmount) external {
         pineBalance += pineAmount;
         tokenBalance += tokenAmount;
     }
 
-    function withdraw(uint tokenAmount, uint pineAmount){
+    function withdraw(uint tokenAmount, uint pineAmount) external {
         pineBalance -= pineAmount;
         tokenBalance -= tokenAmount;
     }
-
+    
+    
     function testing(uint testMe) public view returns (uint) {
         if (testMe == 1) {
             return 5;
