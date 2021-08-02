@@ -10,7 +10,6 @@ contract Factory {
     
     // @notice an event indicating when a pair has been created
     event PairCreated(address indexed token0, address indexed token1, address pair, uint);
-    
     function createPair(
         address tokenA,
         address tokenB,
@@ -19,7 +18,7 @@ contract Factory {
         bytes32 tickerT) external returns (address pair) {
         // todo: fill in the require conditions
         require(?, 'First token in pair is not quote token');
-        require(?, 'Identical addresses');
+        require(quoting != dex, 'Identical addresses');
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         uint whichP = tokenA < tokenB ? 1 : 2;
         require(?, 'Zero address error');
