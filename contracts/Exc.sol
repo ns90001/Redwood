@@ -47,7 +47,9 @@ contract Exc is IExc{
       external 
       view
       returns(Order[] memory) {
-          
+          Order[] storage toReturn;
+          toReturn.push(123);
+          return toReturn;
     }
 
     // todo: implement getTokens, which simply returns an array of the tokens currently traded on in the exchange

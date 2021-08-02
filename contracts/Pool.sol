@@ -15,7 +15,6 @@ contract Pool {
     
     // todo: create wallet data structures
     
-
     // todo: fill in the initialize method, which should simply set the parameters of the contract correctly. To be called once
     // upon deployment by the factory.
     function initialize(address _token0, address _token1, address _dex, uint whichP, bytes32 _tickerQ, bytes32 _tickerT)
