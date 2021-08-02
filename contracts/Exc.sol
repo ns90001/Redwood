@@ -171,6 +171,16 @@ contract Exc is IExc{
         uint amount,
         Side side)
         external {
+       Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
+       curid += 1;
+       for (uint i = 0; i < Orderbook.length; i++) {
+           if (Orderbook[i].side != side) {
+               Order memory limitOrder = Orderbook[i];
+               if (limitOrder.amount - limitOrder.filled > amount) {
+                   //execute limitOrder
+               }
+           }
+       }
        
     }
     
