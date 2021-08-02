@@ -95,8 +95,8 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external {
-        transfer(this(address), amount);
-        traderbalances[msg.sender][ticker] += amount;
+        IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, address(this), amount);
+        traderBalances[msg.sender][ticker] += amount;
         
     }
     
@@ -106,9 +106,9 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external {
-            if(traderbalances[msg.sender][ticker] >= amount){
-                transferFrom(this(address), msg.sender, amount);
-                traderbalances[msg.sender][ticker] -= amount; 
+            if(traderBalances[msg.sender][ticker] >= amount){
+                IERC20(tokens[ticker].tokenAddress).transfer(msg.sender, amount);
+                traderBalances[msg.sender][ticker] -= amount; 
             }
     }
     
@@ -144,11 +144,11 @@ contract Exc is IExc{
         uint id,
         bytes32 ticker,
         Side side) external returns (bool) {
-        Order[] memory newBook = new Order[Orderbook.length-1]
+        Order[] memory newBook = new Order[](Orderbook.length -1);
         bool sametrader = false;
         uint index = 0;
         for(uint i = 0; i<Orderbook.length; i++){
-            if(Orderbook[i].id == id && Orderbook[i].trader = msg.sender){
+            if(Orderbook[i].id == id && Orderbook[i].trader == msg.sender){
                 sametrader = true;
             }
         }
@@ -162,7 +162,18 @@ contract Exc is IExc{
             Orderbook = newBook;
         }
     }
-    
+    function deleteNShift(uint itodel, Order[] memory todelete)
+    public returns (Order[] memory){
+        Order[] memory copy = new Order[](todelete.length - 1);
+        uint index = 0;
+        for(uint i = 0; i < todelete.length; i++){
+            if(i != itodel){
+                copy[i] = todelete[i];
+                index += 1;
+            }
+        }
+        return copy;
+    }
     // todo: implement makeMarketOrder, which will execute a market order on the current orderbook. The market order need not be
     // added to the book explicitly, since it should execute against a limit order immediately. Make sure you are getting rid of
     // completely filled limit orders!
@@ -176,12 +187,21 @@ contract Exc is IExc{
        for (uint i = 0; i < Orderbook.length; i++) {
            if (Orderbook[i].side != side) {
                Order memory limitOrder = Orderbook[i];
-               if (limitOrder.amount - limitOrder.filled > amount) {
-                   //execute limitOrder
+               if (limitOrder.amount - limitOrder.filled >= amount) {
+                  if(uint(side) == 0){
+                      IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amount);
+                  } else {
+                      IERC20(tokens[ticker].tokenAddress).transferFrom(limitOrder.trader, msg.sender, amount);
+                  }
+                  //Possible source of error:
+                  limitOrder.filled = limitOrder.filled + amount;
+                  if(limitOrder.amount - limitOrder.filled == 0){
+                      Orderbook = deleteNShift(i, Orderbook);
+                  }
+                  break;
                }
            }
        }
-       
     }
     
     //todo: add modifiers for methods as detailed in handout
