@@ -23,6 +23,7 @@ contract Exc is IExc{
     bytes32[] public tokenList;
     bytes32 constant PIN = bytes32('PIN');
     Order[] public Orderbook;
+    uint curid = 0; 
 
 
     /// @notice, this is the more standardized form of the main wallet data structure, if you're using something a bit
@@ -94,6 +95,8 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external {
+        transfer(this(address), amount);
+        traderbalances[msg.sender][ticker] += amount;
         
     }
     
@@ -103,6 +106,10 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external {
+            if(traderbalances[msg.sender][ticker] >= amount){
+                transferFrom(this(address), msg.sender, amount);
+                traderbalances[msg.sender][ticker] -= amount; 
+            }
     }
     
     // todo: implement makeLimitOrder, which creates a limit order based on the parameters provided. This method should only be
@@ -117,7 +124,18 @@ contract Exc is IExc{
         uint price,
         Side side)
         external {
-            
+        Order memory LimitOrder = Order(curid, msg.sender, side, ticker, amount, 0, price, now);
+        curid += 1;
+        Orderbook.push(LimitOrder);
+        for(uint i = 1; i< Orderbook.length; i++){
+            Order memory item = Orderbook[i];
+            uint index = i;
+            while(index > 0 && Orderbook[index-1].price < item.price){
+                Orderbook[index] = Orderbook[index - 1];
+                index -= 1;
+            }
+            Orderbook[index] = item;
+        }    
     }
     
     // todo: implement deleteLimitOrder, which will delete a limit order from the orderBook as long as the same trader is deleting
@@ -126,6 +144,23 @@ contract Exc is IExc{
         uint id,
         bytes32 ticker,
         Side side) external returns (bool) {
+        Order[] memory newBook = new Order[Orderbook.length-1]
+        bool sametrader = false;
+        uint index = 0;
+        for(uint i = 0; i<Orderbook.length; i++){
+            if(Orderbook[i].id == id && Orderbook[i].trader = msg.sender){
+                sametrader = true;
+            }
+        }
+        if(sametrader == true){
+            for(uint i = 0; i<Orderbook.length; i++){
+                if(!(Orderbook[i].id == id)){
+                    newBook[index] = Orderbook[i];
+                    index++;
+                }
+            }
+            Orderbook = newBook;
+        }
     }
     
     // todo: implement makeMarketOrder, which will execute a market order on the current orderbook. The market order need not be

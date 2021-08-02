@@ -14,9 +14,6 @@ contract Pool {
     bytes32 private token1T;
     
     // todo: create wallet data structures
-    uint pineBalance = 0;
-    uint tokenBalance = 0;
-    
     
     // todo: fill in the initialize method, which should simply set the parameters of the contract correctly. To be called once
     // upon deployment by the factory.
@@ -41,8 +38,8 @@ contract Pool {
     // todo: implement withdraw and deposit functions so that a single deposit and a single withdraw can unstake
     // both tokens at the same time
     function deposit(uint tokenAmount, uint pineAmount) external {
-        pineBalance += pineAmount;
-        tokenBalance += tokenAmount;
+        IExc(dex).deposit(pineAmount, tokenPT);
+        IExc(dex).deposit(tokenAmount, token1T);
     }
 
     function withdraw(uint tokenAmount, uint pineAmount) external {
