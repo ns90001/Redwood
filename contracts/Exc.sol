@@ -22,6 +22,8 @@ contract Exc is IExc{
     mapping(bytes32 => Token) public tokens;
     bytes32[] public tokenList;
     bytes32 constant PIN = bytes32('PIN');
+    Order[] public Orderbook;
+
 
     /// @notice, this is the more standardized form of the main wallet data structure, if you're using something a bit
     /// different, implementing a function that just takes in the address of the trader and then the ticker of a
@@ -47,7 +49,19 @@ contract Exc is IExc{
       external 
       view
       returns(Order[] memory) {
-          
+      Order[] memory temp = new Order[](Orderbook.length);
+      uint count = 0;
+      for(uint i = 0; i < Orderbook.length; i++){
+          if(Orderbook[i].ticker == ticker && Orderbook[i].side == side){
+              temp[count] = Orderbook[i];
+              count = count + 1;
+          }
+      }
+      Order[] memory toreturn = new Order[](count);
+      for(uint i = 0; i < count; i++){
+          toreturn[i] = temp[i];
+      }
+      return toreturn;
     }
 
     // todo: implement getTokens, which simply returns an array of the tokens currently traded on in the exchange
