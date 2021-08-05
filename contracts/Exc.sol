@@ -194,14 +194,16 @@ contract Exc is IExc{
           Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
           curid += 1;
           uint deleted = 0;
+          uint amtcompleted = amount;
           for (uint i = 0; i < SafeMath.sub(Orderbook.length,deleted);i++) {
               if (Orderbook[i].side != side) {
                   Order memory limitOrder = Orderbook[i];
                   bool breaknext = false;
-                  if (SafeMath.sub(limitOrder.amount, limitOrder.filled) >= amount) {
+                  uint amt2fil = SafeMath.sub(limitOrder.amount, limitOrder.filled);
+                  if (SafeMath.sub(limitOrder.amount, limitOrder.filled) >= amtcompleted) {
                       breaknext = true;
+                      amt2fil = amount;
                   }
-                  uint amt2fil = SafeMath.sub(limitOrder.amount,limitOrder.filled);
                   uint pineval = SafeMath.mul(amt2fil, limitOrder.price);
                   if(uint(side) == 0){
                       require(traderBalances[msg.sender][ticker] >= amt2fil);
@@ -223,6 +225,7 @@ contract Exc is IExc{
                   //Possible source of error:
                   limitOrder.filled = SafeMath.add(limitOrder.filled, amount);
                   if(SafeMath.sub(limitOrder.amount, limitOrder.filled) <= 0){
+                      amtcompleted = amtcompleted - amt2fil;
                       deleteNShift(i);
                       deleted = SafeMath.add(deleted, 1);
                       i = SafeMath.sub(i, 1);
