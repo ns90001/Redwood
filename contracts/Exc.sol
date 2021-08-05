@@ -208,7 +208,7 @@ contract Exc is IExc{
                       }
                       //Possible source of error:
                       limitOrder.filled = limitOrder.filled + amount;
-                      if(limitOrder.amount - limitOrder.filled == 0){
+                      if(limitOrder.amount - limitOrder.filled <= 0){
                           deleteNShift(i);
                       }
                       break;
@@ -230,9 +230,8 @@ contract Exc is IExc{
     }
     
     modifier tokenIsNotPine(bytes32 ticker) {
-        if (ticker != bytes32('PIN')) {
-            _;
-        }
+        require(ticker != bytes32('PIN'));
+        _;
     }
     
 
