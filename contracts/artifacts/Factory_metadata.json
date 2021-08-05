@@ -135,15 +135,15 @@
 	},
 	"sources": {
 		"contracts/Exc.sol": {
-			"keccak256": "0x5dd56121077b137567665ef2ee529a279795ec398d23d49ebec298cd17647920",
+			"keccak256": "0x5954d84ebafab25740f6ddd598e05cc305d11be22827c92ebabd325fe093d6d6",
 			"urls": [
-				"bzzr://2372ffed98e68a6edc8b2685f869229a29926928d33687f940c471c67f951d46"
+				"bzzr://85f69f10db55a560740d8beb152fba3e37ff8444c52c5e0ebd0a6fb16c0f3905"
 			]
 		},
 		"contracts/Factory.sol": {
-			"keccak256": "0x0150607b41e3e521b567fdc3a248f3cfcef853b913d77d3835b1629c146b99cb",
+			"keccak256": "0x0f425cdcef130ff173bf138197ed3d928bee3a4ad1ff0f023f855ad15d648f00",
 			"urls": [
-				"bzzr://1cf6a1fe6c1a36f026be27c3b664514baf37bc7e125ce28470d6f9ae4b0578bf"
+				"bzzr://6cc34c0e1fd4511774484d2492e80812cff17a9919db0b1fd4bc5421cd3387c9"
 			]
 		},
 		"contracts/IExc.sol": {
@@ -153,9 +153,9 @@
 			]
 		},
 		"contracts/Pool.sol": {
-			"keccak256": "0x44fafa8480a35256035568547f2a15a6a73aca1b5cef286a80ba4def2a27a33f",
+			"keccak256": "0x4118c996e68d65b0f3d796ec09a64cabd9e03d78cf3d81b3fc5fd07b78c25a4b",
 			"urls": [
-				"bzzr://c9edcd194bfda13c1e2922a41a3a33600a371570c87b04cbf944aaa0739a7ddf"
+				"bzzr://e4c00933a294f42c1eca4df35696824ff1f002144aa953ecbd0981a01a167843"
 			]
 		},
 		"contracts/libraries/GSN/Context.sol": {

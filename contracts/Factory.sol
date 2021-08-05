@@ -21,7 +21,7 @@ contract Factory {
         require(quoting != dex, 'Identical addresses');
         (address token0, address token1) = tokenA < tokenB ? (tokenA, tokenB) : (tokenB, tokenA);
         uint whichP = tokenA < tokenB ? 1 : 2;
-        require(tokenB == address(0), 'Zero address error');
+        require(tokenB != address(0), 'Zero address error');
         require(getPair[token0][token1] == address(0), 'Pair already exists');
         
         // todo: fill in the rest of the createPair method. To do this, you will need to deploy a smart contract using
