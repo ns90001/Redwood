@@ -24,6 +24,7 @@ contract Exc is IExc{
     bytes32 constant PIN = bytes32('PIN');
     Order[] public Orderbook;
     uint curid = 0; 
+    uint curTradeId = 0;
 
 
     /// @notice, this is the more standardized form of the main wallet data structure, if you're using something a bit
@@ -189,7 +190,6 @@ contract Exc is IExc{
         uint amount,
         Side side)
         external tokenExists(ticker) tokenIsNotPine(ticker) {
-        
           Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
           curid += 1;
           uint deleted = 0;
@@ -223,6 +223,8 @@ contract Exc is IExc{
                   }
                   //Possible source of error:
                   limitOrder.filled = SafeMath.add(limitOrder.filled, amount);
+                  emit NewTrade(curTradeId, curid, ticker, msg.sender, limitOrder.trader, limitOrder.amount, limitOrder.price, now);
+                  curTradeId = curTradeId.add(1);
                   if(SafeMath.sub(limitOrder.amount, limitOrder.filled) <= 0){
                       amtcompleted = amtcompleted - amt2fil;
                       deleteNShift(i);
