@@ -130,29 +130,28 @@ contract Exc is IExc{
             isValid = traderBalances[msg.sender][ticker] >= amount;
         }
         
-        if (isValid) {
-            Order memory LimitOrder = Order(curid, msg.sender, side, ticker, amount, 0, price, now);
-            curid += 1;
-            Orderbook.push(LimitOrder);
-            for(uint i = 1; i< Orderbook.length; i++){
-                Order memory item = Orderbook[i];
-                uint index = i;
-        
-                if (side == Side.BUY) {
-                    //If its a buy order, highest price first
-                    while(index > 0 && Orderbook[index-1].price < item.price){
-                    Orderbook[index] = Orderbook[index - 1];
-                    index -= 1;
-                    }
-                    Orderbook[index] = item;
-                } else {
-                    //If its a sell order, lowest price first
-                    while(index > 0 && Orderbook[index-1].price > item.price){
-                    Orderbook[index] = Orderbook[index - 1];
-                    index -= 1;
-                    }
-                    Orderbook[index] = item;
+        require(isValid == true);
+        Order memory LimitOrder = Order(curid, msg.sender, side, ticker, amount, 0, price, now);
+        curid += 1;
+        Orderbook.push(LimitOrder);
+        for(uint i = 1; i< Orderbook.length; i++){
+            Order memory item = Orderbook[i];
+            uint index = i;
+    
+            if (side == Side.BUY) {
+                //If its a buy order, highest price first
+                while(index > 0 && Orderbook[index-1].price < item.price){
+                Orderbook[index] = Orderbook[index - 1];
+                index -= 1;
                 }
+                Orderbook[index] = item;
+            } else {
+                //If its a sell order, lowest price first
+                while(index > 0 && Orderbook[index-1].price > item.price){
+                Orderbook[index] = Orderbook[index - 1];
+                index -= 1;
+                }
+                Orderbook[index] = item;
             }
         }
         
