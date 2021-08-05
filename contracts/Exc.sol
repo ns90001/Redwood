@@ -116,7 +116,7 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external {
-            if(traderBalances[msg.sender][ticker] >= amount){
+            if(traderBalances[msg.sender][ticker] >= amount && tlcontains(ticker)){
                 IERC20(tokens[ticker].tokenAddress).transfer(msg.sender, amount);
                 traderBalances[msg.sender][ticker] -= amount; 
             }
@@ -134,18 +134,32 @@ contract Exc is IExc{
         uint price,
         Side side)
         external {
-        Order memory LimitOrder = Order(curid, msg.sender, side, ticker, amount, 0, price, now);
-        curid += 1;
-        Orderbook.push(LimitOrder);
-        for(uint i = 1; i< Orderbook.length; i++){
-            Order memory item = Orderbook[i];
-            uint index = i;
-            while(index > 0 && Orderbook[index-1].price < item.price){
-                Orderbook[index] = Orderbook[index - 1];
-                index -= 1;
+            
+        if (ticker != bytes32('PIN')) {
+            
+            bool isValid;
+            
+            if (side == Side.BUY) {
+                isValid = traderBalances[msg.sender][bytes32('PIN')] >= amount;
+            } else {
+                isValid = traderBalances[msg.sender][ticker] >= amount;
             }
-            Orderbook[index] = item;
-        }    
+            
+            if (isValid) {
+                Order memory LimitOrder = Order(curid, msg.sender, side, ticker, amount, 0, price, now);
+                curid += 1;
+                Orderbook.push(LimitOrder);
+                for(uint i = 1; i< Orderbook.length; i++){
+                    Order memory item = Orderbook[i];
+                    uint index = i;
+                    while(index > 0 && Orderbook[index-1].price < item.price){
+                        Orderbook[index] = Orderbook[index - 1];
+                        index -= 1;
+                    }
+                    Orderbook[index] = item;
+                }
+            }
+        }
     }
     
     // todo: implement deleteLimitOrder, which will delete a limit order from the orderBook as long as the same trader is deleting
@@ -174,7 +188,6 @@ contract Exc is IExc{
     }
     function deleteNShift(uint itodel) public {
         uint size = Orderbook.length - 1;
-        uint index = 0;
         for(uint i = itodel; i < size; i++){
             Orderbook[i] = Orderbook[i+1];
         }
@@ -189,26 +202,30 @@ contract Exc is IExc{
         uint amount,
         Side side)
         external {
-      Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
-      curid += 1;
-      for (uint i = 0; i < Orderbook.length; i++) {
-          if (Orderbook[i].side != side) {
-              Order memory limitOrder = Orderbook[i];
-              if (limitOrder.amount - limitOrder.filled >= amount) {
-                  if(uint(side) == 0){
-                      IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amount);
-                  } else {
-                      IERC20(tokens[ticker].tokenAddress).transferFrom(limitOrder.trader, msg.sender, amount);
+            
+        if (ticker != bytes32('PIN')) {
+            
+          Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
+          curid += 1;
+          for (uint i = 0; i < Orderbook.length; i++) {
+              if (Orderbook[i].side != side) {
+                  Order memory limitOrder = Orderbook[i];
+                  if (limitOrder.amount - limitOrder.filled >= amount) {
+                      if(uint(side) == 0){
+                          IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amount);
+                      } else {
+                          IERC20(tokens[ticker].tokenAddress).transferFrom(limitOrder.trader, msg.sender, amount);
+                      }
+                      //Possible source of error:
+                      limitOrder.filled = limitOrder.filled + amount;
+                      if(limitOrder.amount - limitOrder.filled == 0){
+                          deleteNShift(i);
+                      }
+                      break;
                   }
-                  //Possible source of error:
-                  limitOrder.filled = limitOrder.filled + amount;
-                  if(limitOrder.amount - limitOrder.filled == 0){
-                      deleteNShift(i);
-                  }
-                  break;
               }
           }
-      }
+        }
     }
     
     //todo: add modifiers for methods as detailed in handout
