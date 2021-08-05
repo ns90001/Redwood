@@ -22,18 +22,17 @@ contract Pool {
     // upon deployment by the factory.
     function initialize(address _token0, address _token1, address _dex, uint whichP, bytes32 _tickerQ, bytes32 _tickerT)
     external {
-        tokenP = _token0;
-        token1 = _token1;
         dex = _dex;
-        
-        if (whichP == 0) {
-            tokenPT = _tickerQ;
-            token1T = _tickerT;
+
+        if (whichP == 1) {
+            tokenP = _token0;
+            token1 = _token1;
         } else {
-            tokenPT = _tickerT;
-            token1T = _tickerQ;
+            tokenP = _token1;
+            token1 = _token0;
         }
-        
+        tokenPT = _tickerQ;
+        token1T = _tickerT;
     }
     
     // todo: implement wallet functionality and trading functionality
@@ -46,8 +45,10 @@ contract Pool {
     }
 
     function withdraw(uint tokenAmount, uint pineAmount) external {
-        pineBalance -= pineAmount;
-        tokenBalance -= tokenAmount;
+        if (pineBalance >= pineAmount && tokenBalance >= tokenAmount) {
+            pineBalance -= pineAmount;
+            tokenBalance -= tokenAmount;
+        }
     }
     
     
