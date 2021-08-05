@@ -159,20 +159,17 @@ contract Exc is IExc{
                     index++;
                 }
             }
-            Orderbook = newBook;
+            //Orderbook = newBook;
         }
     }
-    function deleteNShift(uint itodel, Order[] memory todelete)
-    public returns (Order[] memory){
-        Order[] memory copy = new Order[](todelete.length - 1);
+    function deleteNShift(uint itodel) public {
+        uint size = Orderbook.length - 1;
         uint index = 0;
-        for(uint i = 0; i < todelete.length; i++){
-            if(i != itodel){
-                copy[i] = todelete[i];
-                index += 1;
-            }
+        for(uint i = itodel; i < size; i++){
+            Orderbook[i] = Orderbook[i+1];
         }
-        return copy;
+        delete Orderbook[Orderbook.length - 1];
+        Orderbook.length -= 1;
     }
     // todo: implement makeMarketOrder, which will execute a market order on the current orderbook. The market order need not be
     // added to the book explicitly, since it should execute against a limit order immediately. Make sure you are getting rid of
@@ -182,12 +179,12 @@ contract Exc is IExc{
         uint amount,
         Side side)
         external {
-       Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
-       curid += 1;
-       for (uint i = 0; i < Orderbook.length; i++) {
-           if (Orderbook[i].side != side) {
-               Order memory limitOrder = Orderbook[i];
-               if (limitOrder.amount - limitOrder.filled >= amount) {
+      Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
+      curid += 1;
+      for (uint i = 0; i < Orderbook.length; i++) {
+          if (Orderbook[i].side != side) {
+              Order memory limitOrder = Orderbook[i];
+              if (limitOrder.amount - limitOrder.filled >= amount) {
                   if(uint(side) == 0){
                       IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amount);
                   } else {
@@ -196,12 +193,12 @@ contract Exc is IExc{
                   //Possible source of error:
                   limitOrder.filled = limitOrder.filled + amount;
                   if(limitOrder.amount - limitOrder.filled == 0){
-                      Orderbook = deleteNShift(i, Orderbook);
+                      deleteNShift(i);
                   }
                   break;
-               }
-           }
-       }
+              }
+          }
+      }
     }
     
     //todo: add modifiers for methods as detailed in handout

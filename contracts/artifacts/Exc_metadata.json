@@ -33,6 +33,20 @@
 				"type": "function"
 			},
 			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "itodel",
+						"type": "uint256"
+					}
+				],
+				"name": "deleteNShift",
+				"outputs": [],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"constant": true,
 				"inputs": [
 					{
@@ -396,9 +410,9 @@
 	},
 	"sources": {
 		"contracts/Exc.sol": {
-			"keccak256": "0x12e5a2ebc0f3ccd56b1e8b1940a7a74c992cb1afb017e0084850c4cbe03e96d2",
+			"keccak256": "0x5954d84ebafab25740f6ddd598e05cc305d11be22827c92ebabd325fe093d6d6",
 			"urls": [
-				"bzzr://b77595b3229cda1e3ce24e5fbd4f18c4641d8a1f95d9c65440d8a96f8daee653"
+				"bzzr://85f69f10db55a560740d8beb152fba3e37ff8444c52c5e0ebd0a6fb16c0f3905"
 			]
 		},
 		"contracts/IExc.sol": {
