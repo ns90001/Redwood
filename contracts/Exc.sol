@@ -151,26 +151,17 @@ contract Exc is IExc{
     
     // todo: implement deleteLimitOrder, which will delete a limit order from the orderBook as long as the same trader is deleting
     // it.
-        function deleteLimitOrder(
+    function deleteLimitOrder(
         uint id,
         bytes32 ticker,
         Side side) external tokenExists(ticker) returns (bool) {
-        Order[] storage newBook = Orderbook[ticker][uint(side)];
         bool sametrader = false;
         uint index = 0;
         for(uint i = 0; i<Orderbook.length; i++){
             if(Orderbook[i].id == id && Orderbook[i].trader == msg.sender){
-                sametrader = true;
+                deleteNShift(i);
             }
-        }
-        if(sametrader == true){
-            for(uint i = 0; i<Orderbook.length; i++){
-                if(!(Orderbook[i].id == id)){
-                    newBook[index] = Orderbook[i];
-                    index = SafeMath.add(index, 1);
-                }
-            }
-            Orderbook = newBook;
+            break;
         }
     }
     function deleteNShift(uint itodel) public {
@@ -193,14 +184,16 @@ contract Exc is IExc{
           Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
           curid += 1;
           uint deleted = 0;
+          uint amtcompleted = amount;
           for (uint i = 0; i < SafeMath.sub(Orderbook.length,deleted);i++) {
               if (Orderbook[i].side != side) {
                   Order memory limitOrder = Orderbook[i];
                   bool breaknext = false;
-                  if (SafeMath.sub(limitOrder.amount, limitOrder.filled) >= amount) {
+                  uint amt2fil = SafeMath.sub(limitOrder.amount, limitOrder.filled);
+                  if (SafeMath.sub(limitOrder.amount, limitOrder.filled) >= amtcompleted) {
                       breaknext = true;
+                      amt2fil = amount;
                   }
-                  uint amt2fil = SafeMath.sub(limitOrder.amount,limitOrder.filled);
                   uint pineval = SafeMath.mul(amt2fil, limitOrder.price);
                   if(uint(side) == 0){
                       require(traderBalances[msg.sender][ticker] >= amt2fil);
@@ -222,6 +215,7 @@ contract Exc is IExc{
                   //Possible source of error:
                   limitOrder.filled = SafeMath.add(limitOrder.filled, amount);
                   if(SafeMath.sub(limitOrder.amount, limitOrder.filled) <= 0){
+                      amtcompleted = amtcompleted - amt2fil;
                       deleteNShift(i);
                       deleted = SafeMath.add(deleted, 1);
                       i = SafeMath.sub(i, 1);
