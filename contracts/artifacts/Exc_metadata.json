@@ -127,6 +127,25 @@
 				"type": "function"
 			},
 			{
+				"constant": false,
+				"inputs": [
+					{
+						"name": "ticker",
+						"type": "bytes32"
+					}
+				],
+				"name": "tlcontains",
+				"outputs": [
+					{
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"payable": false,
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"constant": true,
 				"inputs": [
 					{
@@ -410,9 +429,9 @@
 	},
 	"sources": {
 		"contracts/Exc.sol": {
-			"keccak256": "0x5954d84ebafab25740f6ddd598e05cc305d11be22827c92ebabd325fe093d6d6",
+			"keccak256": "0xfcafb775417473f4e17ab0edb395c539d9b99fc878f1de9f112433c8feece1e0",
 			"urls": [
-				"bzzr://85f69f10db55a560740d8beb152fba3e37ff8444c52c5e0ebd0a6fb16c0f3905"
+				"bzzr://6313ca5a395247371bdbd02383799c693dd640341cdaaae390eff73f283633c2"
 			]
 		},
 		"contracts/IExc.sol": {

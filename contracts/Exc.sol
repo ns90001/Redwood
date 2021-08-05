@@ -95,9 +95,19 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external {
-        IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, address(this), amount);
-        traderBalances[msg.sender][ticker] += amount;
+            if(tlcontains(ticker)){
+                IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, address(this), amount);
+                traderBalances[msg.sender][ticker] += amount;
+            }
         
+    }
+    function tlcontains(bytes32 ticker) public returns (bool) {
+        for(uint i = 0; i < tokenList.length; i++){
+            if(tokenList[i] == ticker){
+                return true;
+            }
+        }
+        return false;
     }
     
     // todo: implement withdraw, which should do the opposite of deposit. The trader should not be able to withdraw more than
