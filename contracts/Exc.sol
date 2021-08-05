@@ -106,7 +106,7 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external tokenExists(ticker) {
-            if(traderBalances[msg.sender][ticker] >= amount){
+            if(IERC20(tokens[ticker].tokenAddress).balanceOf(msg.sender) >= amount){
                 IERC20(tokens[ticker].tokenAddress).transfer(msg.sender, amount);
                 traderBalances[msg.sender][ticker] -= amount; 
             }
