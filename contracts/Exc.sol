@@ -137,13 +137,22 @@ contract Exc is IExc{
             for(uint i = 1; i< Orderbook.length; i++){
                 Order memory item = Orderbook[i];
                 uint index = i;
-                //If its a buy order, highest price first
-                //If its a sell order, lowest price first
-                while(index > 0 && Orderbook[index-1].price < item.price){
+        
+                if (side == Side.BUY) {
+                    //If its a buy order, highest price first
+                    while(index > 0 && Orderbook[index-1].price < item.price){
                     Orderbook[index] = Orderbook[index - 1];
                     index -= 1;
+                    }
+                    Orderbook[index] = item;
+                } else {
+                    //If its a sell order, lowest price first
+                    while(index > 0 && Orderbook[index-1].price > item.price){
+                    Orderbook[index] = Orderbook[index - 1];
+                    index -= 1;
+                    }
+                    Orderbook[index] = item;
                 }
-                Orderbook[index] = item;
             }
         }
         
@@ -151,28 +160,20 @@ contract Exc is IExc{
     
     // todo: implement deleteLimitOrder, which will delete a limit order from the orderBook as long as the same trader is deleting
     // it.
-        function deleteLimitOrder(
+    function deleteLimitOrder(
         uint id,
         bytes32 ticker,
         Side side) external tokenExists(ticker) returns (bool) {
-        Order[] storage newBook = Orderbook[ticker][uint(side)];
         bool sametrader = false;
         uint index = 0;
         for(uint i = 0; i<Orderbook.length; i++){
             if(Orderbook[i].id == id && Orderbook[i].trader == msg.sender){
-                sametrader = true;
+                deleteNShift(i);
             }
-        }
-        if(sametrader == true){
-            for(uint i = 0; i<Orderbook.length; i++){
-                if(!(Orderbook[i].id == id)){
-                    newBook[index] = Orderbook[i];
-                    index = SafeMath.add(index, 1);
-                }
-            }
-            Orderbook = newBook;
+            break;
         }
     }
+    
     function deleteNShift(uint itodel) public {
         uint size = Orderbook.length - 1;
         for(uint i = itodel; i < size; i++){
