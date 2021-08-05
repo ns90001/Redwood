@@ -94,25 +94,18 @@ contract Exc is IExc{
     function deposit(
         uint amount,
         bytes32 ticker)
-        external {
+        external tokenExists(ticker) {
             IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, address(this), amount);
             traderBalances[msg.sender][ticker] += amount;
     }
-    function tlcontains(bytes32 ticker) public returns (bool) {
-        for(uint i = 0; i < tokenList.length; i++){
-            if(tokenList[i] == ticker){
-                return true;
-            }
-        }
-        return false;
-    }
+   
     
     // todo: implement withdraw, which should do the opposite of deposit. The trader should not be able to withdraw more than
     // they have in the exchange.
     function withdraw(
         uint amount,
         bytes32 ticker)
-        external {
+        external tokenExists(ticker) {
             if(traderBalances[msg.sender][ticker] >= amount){
                 IERC20(tokens[ticker].tokenAddress).transfer(msg.sender, amount);
                 traderBalances[msg.sender][ticker] -= amount; 
@@ -130,33 +123,31 @@ contract Exc is IExc{
         uint amount,
         uint price,
         Side side)
-        external {
-            
-        if (ticker != bytes32('PIN')) {
-            
-            bool isValid;
-            
-            if (side == Side.BUY) {
-                isValid = traderBalances[msg.sender][bytes32('PIN')] >= amount;
-            } else {
-                isValid = traderBalances[msg.sender][ticker] >= amount;
-            }
-            
-            if (isValid) {
-                Order memory LimitOrder = Order(curid, msg.sender, side, ticker, amount, 0, price, now);
-                curid += 1;
-                Orderbook.push(LimitOrder);
-                for(uint i = 1; i< Orderbook.length; i++){
-                    Order memory item = Orderbook[i];
-                    uint index = i;
-                    while(index > 0 && Orderbook[index-1].price < item.price){
-                        Orderbook[index] = Orderbook[index - 1];
-                        index -= 1;
-                    }
-                    Orderbook[index] = item;
+        external tokenExists(ticker) tokenIsNotPine(ticker) {
+
+        bool isValid;
+        
+        if (side == Side.BUY) {
+            isValid = traderBalances[msg.sender][bytes32('PIN')] >= amount;
+        } else {
+            isValid = traderBalances[msg.sender][ticker] >= amount;
+        }
+        
+        if (isValid) {
+            Order memory LimitOrder = Order(curid, msg.sender, side, ticker, amount, 0, price, now);
+            curid += 1;
+            Orderbook.push(LimitOrder);
+            for(uint i = 1; i< Orderbook.length; i++){
+                Order memory item = Orderbook[i];
+                uint index = i;
+                while(index > 0 && Orderbook[index-1].price < item.price){
+                    Orderbook[index] = Orderbook[index - 1];
+                    index -= 1;
                 }
+                Orderbook[index] = item;
             }
         }
+        
     }
     
     // todo: implement deleteLimitOrder, which will delete a limit order from the orderBook as long as the same trader is deleting
@@ -164,7 +155,7 @@ contract Exc is IExc{
         function deleteLimitOrder(
         uint id,
         bytes32 ticker,
-        Side side) external returns (bool) {
+        Side side) external tokenExists(ticker) returns (bool) {
         Order[] memory newBook = new Order[](Orderbook.length -1);
         bool sametrader = false;
         uint index = 0;
@@ -198,10 +189,8 @@ contract Exc is IExc{
         bytes32 ticker,
         uint amount,
         Side side)
-        external {
-            
-        if (ticker != bytes32('PIN')) {
-            
+        external tokenExists(ticker) tokenIsNotPine(ticker) {
+        
           Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
           curid += 1;
           for (uint i = 0; i < Orderbook.length; i++) {
@@ -226,9 +215,25 @@ contract Exc is IExc{
                   }
               }
           }
-        }
     }
     
     //todo: add modifiers for methods as detailed in handout
+    modifier tokenExists(bytes32 ticker) {
+         bool exists = false;
+         for(uint i = 0; i < tokenList.length; i++){
+            if(tokenList[i] == ticker){
+                exists = true;
+            }
+        }
+        require(exists == true);
+        _;
+    }
+    
+    modifier tokenIsNotPine(bytes32 ticker) {
+        if (ticker != bytes32('PIN')) {
+            _;
+        }
+    }
+    
 
 }
