@@ -190,6 +190,9 @@ contract Exc is IExc{
         uint amount,
         Side side)
         external tokenExists(ticker) tokenIsNotPine(ticker) {
+          if(side == Side.BUY){
+             require(traderBalances[msg.sender][ticker] >= amount);
+          }
           Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
           curid += 1;
           uint deleted = 0;
@@ -204,7 +207,7 @@ contract Exc is IExc{
                       amt2fil = amount;
                   }
                   uint pineval = SafeMath.mul(amt2fil, limitOrder.price);
-                  if(uint(side) == 0){
+                  if(side == Side.BUY){
                       require(traderBalances[msg.sender][ticker] >= amt2fil);
                       require(traderBalances[msg.sender][bytes32("PIN")] >= pineval);
                       IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amt2fil);
