@@ -210,8 +210,12 @@ contract Exc is IExc{
                   if (limitOrder.amount - limitOrder.filled >= amount) {
                       if(uint(side) == 0){
                           IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amount);
+                          traderBalances[msg.sender][ticker] -= amount; 
+                          traderBalances[limitOrder.trader][ticker] += amount; 
                       } else {
                           IERC20(tokens[ticker].tokenAddress).transferFrom(limitOrder.trader, msg.sender, amount);
+                          traderBalances[msg.sender][ticker] += amount; 
+                          traderBalances[limitOrder.trader][ticker] -= amount; 
                       }
                       //Possible source of error:
                       limitOrder.filled = limitOrder.filled + amount;
