@@ -167,7 +167,7 @@ contract Exc is IExc{
             for(uint i = 0; i<Orderbook.length; i++){
                 if(!(Orderbook[i].id == id)){
                     newBook[index] = Orderbook[i];
-                    index++;
+                    index = SafeMath.add(index, 1);
                 }
             }
             //Orderbook = newBook;
@@ -192,25 +192,42 @@ contract Exc is IExc{
         
           Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
           curid += 1;
-          for (uint i = 0; i < Orderbook.length; i++) {
+          uint deleted = 0;
+          for (uint i = 0; i < SafeMath.sub(Orderbook.length,deleted);i++) {
               if (Orderbook[i].side != side) {
                   Order memory limitOrder = Orderbook[i];
-                  if (limitOrder.amount - limitOrder.filled >= amount) {
-                      if(uint(side) == 0){
-                          IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amount);
-                          traderBalances[msg.sender][ticker] -= amount; 
-                          traderBalances[limitOrder.trader][ticker] += amount; 
-                      } else {
-                          IERC20(tokens[ticker].tokenAddress).transferFrom(limitOrder.trader, msg.sender, amount);
-                          traderBalances[msg.sender][ticker] += amount; 
-                          traderBalances[limitOrder.trader][ticker] -= amount; 
-                      }
-                      //Possible source of error:
-                      limitOrder.filled = limitOrder.filled + amount;
-                      if(limitOrder.amount - limitOrder.filled <= 0){
-                          deleteNShift(i);
-                      }
-                      break;
+                  bool breaknext = false;
+                  if (SafeMath.sub(limitOrder.amount, limitOrder.filled) >= amount) {
+                      breaknext = true;
+                  }
+                  uint amt2fil = SafeMath.sub(limitOrder.amount,limitOrder.filled);
+                  uint pineval = SafeMath.mul(amt2fil, limitOrder.price);
+                  if(uint(side) == 0){
+                      require(traderBalances[msg.sender][ticker] >= amt2fil);
+                      require(traderBalances[msg.sender][bytes32("PIN")] >= pineval);
+                      IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amt2fil);
+                      traderBalances[msg.sender][ticker] = SafeMath.sub(traderBalances[msg.sender][ticker], amt2fil); 
+                      traderBalances[limitOrder.trader][limitOrder.ticker] = SafeMath.add(traderBalances[limitOrder.trader][limitOrder.ticker], amt2fil); 
+                      traderBalances[msg.sender][bytes32("PIN")] = SafeMath.sub(traderBalances[msg.sender][bytes32("PIN")], pineval);
+                      traderBalances[limitOrder.trader][bytes32("PIN")] = SafeMath.add(traderBalances[msg.sender][bytes32("PIN")], pineval);
+                  } else {
+                      require(traderBalances[limitOrder.trader][limitOrder.ticker] >= amt2fil);
+                      require(traderBalances[limitOrder.trader][bytes32("PIN")] >= pineval);
+                      IERC20(tokens[limitOrder.ticker].tokenAddress).transferFrom(limitOrder.trader, msg.sender, amt2fil);
+                      traderBalances[msg.sender][ticker] = SafeMath.add(traderBalances[msg.sender][ticker], amt2fil); 
+                      traderBalances[limitOrder.trader][limitOrder.ticker] = SafeMath.sub(traderBalances[limitOrder.trader][limitOrder.ticker], amt2fil); 
+                      traderBalances[limitOrder.trader][bytes32("PIN")] = SafeMath.sub(traderBalances[limitOrder.trader][bytes32("PIN")], pineval);
+                      traderBalances[msg.sender][bytes32("PIN")] = SafeMath.add(traderBalances[msg.sender][bytes32("PIN")], pineval); 
+                  }
+                  //Possible source of error:
+                  limitOrder.filled = SafeMath.add(limitOrder.filled, amount);
+                  if(SafeMath.sub(limitOrder.amount, limitOrder.filled) <= 0){
+                      deleteNShift(i);
+                      deleted = SafeMath.add(deleted, 1);
+                      i = SafeMath.sub(i, 1);
+                  }
+                  if(breaknext){
+                    break;
                   }
               }
           }
