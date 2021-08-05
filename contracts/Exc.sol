@@ -95,11 +95,8 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external {
-            if(tlcontains(ticker)){
-                IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, address(this), amount);
-                traderBalances[msg.sender][ticker] += amount;
-            }
-        
+            IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, address(this), amount);
+            traderBalances[msg.sender][ticker] += amount;
     }
     function tlcontains(bytes32 ticker) public returns (bool) {
         for(uint i = 0; i < tokenList.length; i++){
@@ -116,7 +113,7 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external {
-            if(traderBalances[msg.sender][ticker] >= amount && tlcontains(ticker)){
+            if(traderBalances[msg.sender][ticker] >= amount){
                 IERC20(tokens[ticker].tokenAddress).transfer(msg.sender, amount);
                 traderBalances[msg.sender][ticker] -= amount; 
             }
