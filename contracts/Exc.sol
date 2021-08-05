@@ -82,9 +82,7 @@ contract Exc is IExc{
         bytes32 ticker,
         address tokenAddress)
         external {
-            Token memory newToken = tokens[ticker];
-            newToken.ticker = ticker;
-            newToken.tokenAddress = tokenAddress;
+            tokens[ticker] = Token(ticker, tokenAddress);
             tokenList.push(ticker);
     }
     
@@ -95,8 +93,9 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external tokenExists(ticker) {
+            // require(IERC20(tokens[ticker].tokenAddress).balanceOf(msg.sender) >= amount);
             IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, address(this), amount);
-            traderBalances[msg.sender][ticker] += amount;
+            traderBalances[msg.sender][ticker] = SafeMath.add(traderBalances[msg.sender][ticker], amount);
     }
    
     
@@ -105,10 +104,9 @@ contract Exc is IExc{
     function withdraw(
         uint amount,
         bytes32 ticker)
-        external tokenExists(ticker) {
-            require(IERC20(tokens[ticker].tokenAddress).balanceOf(msg.sender) >= amount);
+        external tokenExists(ticker) hasEnoughInAccount(ticker, amount){
             IERC20(tokens[ticker].tokenAddress).transfer(msg.sender, amount);
-            traderBalances[msg.sender][ticker] -= amount; 
+            traderBalances[msg.sender][ticker] = traderBalances[msg.sender][ticker].sub(amount); 
     }
     
     // todo: implement makeLimitOrder, which creates a limit order based on the parameters provided. This method should only be
@@ -127,7 +125,7 @@ contract Exc is IExc{
         bool isValid;
         
         if (side == Side.BUY) {
-            isValid = traderBalances[msg.sender][bytes32('PIN')] >= amount;
+            isValid = traderBalances[msg.sender][bytes32('PIN')] >= amount.mul(price);
         } else {
             isValid = traderBalances[msg.sender][ticker] >= amount;
         }
@@ -139,6 +137,8 @@ contract Exc is IExc{
             for(uint i = 1; i< Orderbook.length; i++){
                 Order memory item = Orderbook[i];
                 uint index = i;
+                //If its a buy order, highest price first
+                //If its a sell order, lowest price first
                 while(index > 0 && Orderbook[index-1].price < item.price){
                     Orderbook[index] = Orderbook[index - 1];
                     index -= 1;
@@ -155,7 +155,7 @@ contract Exc is IExc{
         uint id,
         bytes32 ticker,
         Side side) external tokenExists(ticker) returns (bool) {
-        Order[] memory newBook = new Order[](Orderbook.length -1);
+        Order[] storage newBook = Orderbook[ticker][uint(side)];
         bool sametrader = false;
         uint index = 0;
         for(uint i = 0; i<Orderbook.length; i++){
@@ -170,7 +170,7 @@ contract Exc is IExc{
                     index = SafeMath.add(index, 1);
                 }
             }
-            //Orderbook = newBook;
+            Orderbook = newBook;
         }
     }
     function deleteNShift(uint itodel) public {
@@ -235,13 +235,7 @@ contract Exc is IExc{
     
     //todo: add modifiers for methods as detailed in handout
     modifier tokenExists(bytes32 ticker) {
-         bool exists = false;
-         for(uint i = 0; i < tokenList.length; i++){
-            if(tokenList[i] == ticker){
-                exists = true;
-            }
-        }
-        require(exists == true);
+        require(tokens[ticker].tokenAddress != address(0));
         _;
     }
     
@@ -249,6 +243,8 @@ contract Exc is IExc{
         require(ticker != bytes32('PIN'));
         _;
     }
-    
-
+    modifier hasEnoughInAccount(bytes32 ticker, uint amount){
+        require(traderBalances[msg.sender][ticker] >= amount);
+        _;
+    }
 }
