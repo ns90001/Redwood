@@ -190,9 +190,13 @@ contract Exc is IExc{
         uint amount,
         Side side)
         external tokenExists(ticker) tokenIsNotPine(ticker) {
-          if(side == Side.BUY){
-             require(traderBalances[msg.sender][ticker] >= amount);
+            
+          if (side == Side.BUY) {
+              require(traderBalances[msg.sender][ticker] >= amount);
+          } else {
+              require(traderBalances[msg.sender][bytes32("PIN")] >= amount);
           }
+            
           Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
           curid += 1;
           uint deleted = 0;
