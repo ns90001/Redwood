@@ -106,10 +106,9 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external tokenExists(ticker) {
-            if(IERC20(tokens[ticker].tokenAddress).balanceOf(msg.sender) >= amount){
-                IERC20(tokens[ticker].tokenAddress).transfer(msg.sender, amount);
-                traderBalances[msg.sender][ticker] -= amount; 
-            }
+            require(IERC20(tokens[ticker].tokenAddress).balanceOf(msg.sender) >= amount);
+            IERC20(tokens[ticker].tokenAddress).transfer(msg.sender, amount);
+            traderBalances[msg.sender][ticker] -= amount; 
     }
     
     // todo: implement makeLimitOrder, which creates a limit order based on the parameters provided. This method should only be
