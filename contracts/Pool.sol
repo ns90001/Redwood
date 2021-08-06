@@ -45,10 +45,9 @@ contract Pool {
     }
 
     function withdraw(uint tokenAmount, uint pineAmount) external {
-        if (pineBalance >= pineAmount && tokenBalance >= tokenAmount) {
-            pineBalance -= pineAmount;
-            tokenBalance -= tokenAmount;
-        }
+        require(pineBalance >= pineAmount && tokenBalance >= tokenAmount);
+        pineBalance -= pineAmount;
+        tokenBalance -= tokenAmount;
     }
     
     
