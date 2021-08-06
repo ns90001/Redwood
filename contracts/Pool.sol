@@ -16,7 +16,9 @@ contract Pool {
     // todo: create wallet data structures
     uint pineBalance = 0;
     uint tokenBalance = 0;
-    
+    bool hasrun = false;
+    uint idbuy = 0;
+    uint idsell = 0;
     
     // todo: fill in the initialize method, which should simply set the parameters of the contract correctly. To be called once
     // upon deployment by the factory.
@@ -33,6 +35,8 @@ contract Pool {
         }
         tokenPT = _tickerQ;
         token1T = _tickerT;
+        IExc(dex).addToken(token1T, token1);
+        IExc(dex).addToken(tokenPT, tokenP);
     }
     
     // todo: implement wallet functionality and trading functionality
@@ -40,14 +44,41 @@ contract Pool {
     // todo: implement withdraw and deposit functions so that a single deposit and a single withdraw can unstake
     // both tokens at the same time
     function deposit(uint tokenAmount, uint pineAmount) external {
-        pineBalance += pineAmount;
-        tokenBalance += tokenAmount;
+        pineBalance = SafeMath.add(pineBalance, pineAmount);
+        tokenBalance = SafeMath.add(tokenBalance, tokenAmount);
+        IExc(dex).deposit(tokenAmount, token1T);
+        IExc(dex).deposit(pineAmount, tokenPT);
+        uint aprice = SafeMath.div(tokenBalance, pineBalance);
+        if(hasrun == false){
+            idbuy = IExc(dex).makeLimitOrder(token1T, tokenBalance, aprice, IExc.Side.BUY);
+            idsell = IExc(dex).makeLimitOrder(token1T, tokenBalance, aprice, IExc.Side.SELL);
+            hasrun = true;
+        } else {
+            IExc(dex).deleteLimitOrder(idbuy, token1T, IExc.Side.BUY);
+            IExc(dex).deleteLimitOrder(idbuy, token1T, IExc.Side.SELL);
+            idbuy = IExc(dex).makeLimitOrder(token1T, tokenBalance, aprice, IExc.Side.BUY);
+            idsell = IExc(dex).makeLimitOrder(token1T, tokenBalance, aprice, IExc.Side.SELL);
+        }
     }
 
     function withdraw(uint tokenAmount, uint pineAmount) external {
-        require(pineBalance >= pineAmount && tokenBalance >= tokenAmount);
-        pineBalance -= pineAmount;
-        tokenBalance -= tokenAmount;
+        if (pineBalance >= pineAmount && tokenBalance >= tokenAmount) {
+            pineBalance = SafeMath.sub(pineBalance, pineAmount);
+            tokenBalance = SafeMath.sub(tokenBalance, tokenAmount);
+            IExc(dex).withdraw(tokenAmount, token1T);
+            IExc(dex).withdraw(pineAmount, tokenPT);
+            uint aprice = SafeMath.div(tokenBalance, pineBalance);
+            if(hasrun == false){
+                idbuy = Exc(dex).makeLimitOrder(token1T, tokenBalance, aprice, IExc.Side.BUY);
+                idsell = Exc(dex).makeLimitOrder(token1T, tokenBalance, aprice, IExc.Side.SELL);
+                hasrun = true;
+            } else {
+                Exc(dex).deleteLimitOrder(idbuy, token1T, IExc.Side.BUY);
+                Exc(dex).deleteLimitOrder(idbuy, token1T, IExc.Side.SELL);
+                idbuy = Exc(dex).makeLimitOrder(token1T, tokenBalance, aprice, IExc.Side.BUY);
+                idsell = Exc(dex).makeLimitOrder(token1T, tokenBalance, aprice, IExc.Side.SELL);
+            }
+        }
     }
     
     

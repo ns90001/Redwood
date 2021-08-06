@@ -3,17 +3,17 @@ pragma experimental ABIEncoderV2;
 
 interface IExc {
 
-       
+
     enum Side {
         BUY,
         SELL
     }
-    
+
     struct Token {
         bytes32 ticker;
         address tokenAddress;
     }
-    
+
     struct Order {
         uint id;
         address trader;
@@ -24,9 +24,9 @@ interface IExc {
         uint price;
         uint date;
     }
-    
-    
-    
+
+
+
 
     function getOrders(
       bytes32 ticker, 
@@ -39,35 +39,35 @@ interface IExc {
       external 
       view 
       returns(Token[] memory);
-    
+
     function addToken(
         bytes32 ticker,
         address tokenAddress)
         external;
-    
+
     function deposit(
         uint amount,
         bytes32 ticker)
         external;
-    
+
     function withdraw(
         uint amount,
         bytes32 ticker)
         external;
-    
+
     function makeLimitOrder(
         bytes32 ticker,
         uint amount,
         uint price,
         Side side)
-        external;
-    
+        external returns (uint);
+
         function deleteLimitOrder(
         uint id,
         bytes32 ticker,
         Side side)
     external returns (bool);
-    
+
     function makeMarketOrder(
         bytes32 ticker,
         uint amount,

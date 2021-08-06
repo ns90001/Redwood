@@ -94,7 +94,6 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external tokenExists(ticker) {
-            // require(IERC20(tokens[ticker].tokenAddress).balanceOf(msg.sender) >= amount);
             IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, address(this), amount);
             traderBalances[msg.sender][ticker] = SafeMath.add(traderBalances[msg.sender][ticker], amount);
     }
@@ -121,7 +120,7 @@ contract Exc is IExc{
         uint amount,
         uint price,
         Side side)
-        external tokenExists(ticker) tokenIsNotPine(ticker) {
+        external tokenExists(ticker) tokenIsNotPine(ticker) returns (uint){
 
         bool isValid;
         
@@ -155,7 +154,7 @@ contract Exc is IExc{
                 Orderbook[index] = item;
             }
         }
-        
+        return curid - 1;
     }
     
     // todo: implement deleteLimitOrder, which will delete a limit order from the orderBook as long as the same trader is deleting

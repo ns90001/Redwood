@@ -3,6 +3,7 @@ const Zrx = artifacts.require('dummy/Zrx.sol');
 const Exc = artifacts.require('Exc.sol');
 const Fac = artifacts.require('Factory.sol')
 const Pool = artifacts.require('Pool.sol')
+const { expectRevert } = require('@openzeppelin/test-helpers');
 
 const SIDE = {
     BUY: 0,
@@ -38,5 +39,15 @@ contract('Factory', (accounts) => {
         const pool = await Pool.at(poolAd);
         const checkMe = await pool.testing(1);
         assert(checkMe, 5);
+        
+        pool.deposit(100, 100);
+        
+        // trying to withdraw more than we have in the account
+        expectRevert(
+            pool.withdraw(200, 200),
+            "revert"
+        )
+        
+    
     });
 });

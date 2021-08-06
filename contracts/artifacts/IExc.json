@@ -260,7 +260,12 @@
 				}
 			],
 			"name": "makeLimitOrder",
-			"outputs": [],
+			"outputs": [
+				{
+					"name": "",
+					"type": "uint256"
+				}
+			],
 			"payable": false,
 			"stateMutability": "nonpayable",
 			"type": "function"
