@@ -98,7 +98,7 @@ contract Exc is IExc{
         bytes32 ticker)
         external tokenExists(ticker) {
             // require(IERC20(tokens[ticker].tokenAddress).balanceOf(msg.sender) >= amount);
-            IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, address(this), amount);
+            //IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, address(this), amount);
             traderBalances[msg.sender][ticker] = SafeMath.add(traderBalances[msg.sender][ticker], amount);
     }
    

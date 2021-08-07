@@ -51,8 +51,8 @@ contract Pool {
         pineBalance = SafeMath.add(pineBalance, pineAmount);
         tokenBalance = SafeMath.add(tokenBalance, tokenAmount);
         
-        // IERC20(token1).transferFrom(msg.sender, address(this), tokenAmount);
-        // IERC20(tokenP).transferFrom(msg.sender, address(this), pineAmount);
+        IERC20(token1).transferFrom(msg.sender, address(this), tokenAmount);
+        IERC20(tokenP).transferFrom(msg.sender, address(this), pineAmount);
         
         IERC20(token1).approve(dex, tokenAmount);
         IERC20(tokenP).approve(dex, pineAmount);
