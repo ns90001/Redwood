@@ -238,8 +238,8 @@ contract Exc is IExc{
                   Orderbook[i].filled = SafeMath.add(limitOrder.filled, amtcompleted);
                   emit NewTrade(curTradeId, curid, ticker, msg.sender, limitOrder.trader, limitOrder.amount, limitOrder.price, now);
                   curTradeId = curTradeId.add(1);
+                  amtcompleted = amtcompleted.sub(amt2fil);
                   if(amt2fil <= 0){
-                      amtcompleted = amtcompleted.sub(amt2fil);
                       deleteNShift(i);
                       deleted = SafeMath.add(deleted, 1);
                   } else {

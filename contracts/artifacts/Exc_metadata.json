@@ -432,9 +432,15 @@
 	},
 	"sources": {
 		"contracts/Exc.sol": {
+<<<<<<< HEAD
 			"keccak256": "0x257a4c991869dcc98a6a259e328a0043a29579061204e3480da5a6336fea3d04",
 			"urls": [
 				"bzzr://6903c6b4c394f630e849390a115ddaaecd2bf4c647b43f66ad7b728c66539844"
+=======
+			"keccak256": "0x5bfd3ed13af4abf206b0e64f515be7c38c84198eef9cac74ea0cb655d92380f1",
+			"urls": [
+				"bzzr://c17d21f3b55004855defdd77118b495d091a939776fefc0bea972cf0e7f1a5b1"
+>>>>>>> abb0af24012cd713445606d655fbf8e38cf0c858
 			]
 		},
 		"contracts/IExc.sol": {
