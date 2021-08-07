@@ -40,7 +40,7 @@ contract Pool {
     }
     
     event Debug(string text);
-    
+    event DebugBalances(string name, uint balance);
     
     // todo: implement wallet functionality and trading functionality
 
