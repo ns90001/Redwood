@@ -173,9 +173,9 @@
 	},
 	"sources": {
 		"contracts/Exc.sol": {
-			"keccak256": "0xd2f8f17272d7097dcaa908ceabefc12371ae49282fb5a77807698693dcb3c462",
+			"keccak256": "0xcb05316056d19b53b15f73ffeb11b19ff6fb1b4d8accdbe58dd63e7f9fecefa2",
 			"urls": [
-				"bzzr://6409da91233aa1b2bf10d9807e1fb53d4b83ce1bd341248badf7b4212a16480f"
+				"bzzr://ebdfa626ba405cdd7490a774feaf8de6f78b2383005e4d0d5fb3c1c569c4e042"
 			]
 		},
 		"contracts/IExc.sol": {
@@ -185,9 +185,9 @@
 			]
 		},
 		"contracts/Pool.sol": {
-			"keccak256": "0x752f79e09e13b4698ae05af25ed5d97d1ad8404e4a0793bd6efa53718cf26b95",
+			"keccak256": "0x1b3036da601391ba5a88f0b0da92353e337cb9f1fd46a9a3ae83fd3ef046d51e",
 			"urls": [
-				"bzzr://6e02c3a7339948ccfb2daed12db2d02bc1b2d3e4dd7ef7342d81a7a85fe64349"
+				"bzzr://71fe525cf744a2cd2f51b48d94e73ff7f46aa8e984ffe2b895a7f1e3c2d20289"
 			]
 		},
 		"contracts/libraries/GSN/Context.sol": {

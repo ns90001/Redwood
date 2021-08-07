@@ -47,12 +47,13 @@ contract Pool {
     // todo: implement withdraw and deposit functions so that a single deposit and a single withdraw can unstake
     // both tokens at the same time
     function deposit(uint tokenAmount, uint pineAmount) external {
+        emit Debug("Starting to deposit");
+        
         pineBalance = Exc(dex).traderBalances(address(this),tokenPT);
         tokenBalance = Exc(dex).traderBalances(address(this),token1T);
         pineBalance = SafeMath.add(pineBalance, pineAmount);
         tokenBalance = SafeMath.add(tokenBalance, tokenAmount);
         
-        emit Debug("Starting to deposit");
         emit DebugBalances("pineBalance", pineBalance);
         emit DebugBalances("tokenBalance", tokenBalance);
         emit DebugBalances("pineAmount", pineAmount);
@@ -83,10 +84,12 @@ contract Pool {
     }
 
     function withdraw(uint tokenAmount, uint pineAmount) external {
+        emit Debug("Starting to withdraw");
+        
         pineBalance = Exc(dex).traderBalances(address(this), tokenPT);
         tokenBalance = Exc(dex).traderBalances(address(this), token1T);
         
-        emit Debug("Starting to withdraw");
+        
         emit DebugBalances("pineBalance", pineBalance);
         emit DebugBalances("tokenBalance", tokenBalance);
         emit DebugBalances("pineAmount", pineAmount);
