@@ -41,6 +41,7 @@ contract Pool {
     
     event Debug(string text);
     
+    
     // todo: implement wallet functionality and trading functionality
 
     // todo: implement withdraw and deposit functions so that a single deposit and a single withdraw can unstake
@@ -50,6 +51,11 @@ contract Pool {
         tokenBalance = Exc(dex).traderBalances(address(this),token1T);
         pineBalance = SafeMath.add(pineBalance, pineAmount);
         tokenBalance = SafeMath.add(tokenBalance, tokenAmount);
+        
+        emit DebugBalances("pineBalance", pineBalance);
+        emit DebugBalances("tokenBalance", tokenBalance);
+        emit DebugBalances("pineAmount", pineAmount);
+        emit DebugBalances("tokenAmount", tokenAmount);
         
         IERC20(token1).transferFrom(msg.sender, address(this), tokenAmount);
         IERC20(tokenP).transferFrom(msg.sender, address(this), pineAmount);
@@ -78,6 +84,12 @@ contract Pool {
     function withdraw(uint tokenAmount, uint pineAmount) external {
         pineBalance = Exc(dex).traderBalances(address(this), tokenPT);
         tokenBalance = Exc(dex).traderBalances(address(this), token1T);
+        
+        emit DebugBalances("pineBalance", pineBalance);
+        emit DebugBalances("tokenBalance", tokenBalance);
+        emit DebugBalances("pineAmount", pineAmount);
+        emit DebugBalances("tokenAmount", tokenAmount);
+        
             if (pineBalance >= pineAmount && tokenBalance >= tokenAmount) {
                 tokenBalance = SafeMath.sub(pineBalance, pineAmount);
                 tokenBalance = SafeMath.sub(tokenBalance, tokenAmount);

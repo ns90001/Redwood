@@ -133,6 +133,23 @@
 				],
 				"name": "Debug",
 				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"name": "balance",
+						"type": "uint256"
+					}
+				],
+				"name": "DebugBalances",
+				"type": "event"
 			}
 		],
 		"devdoc": {
@@ -156,9 +173,9 @@
 	},
 	"sources": {
 		"contracts/Exc.sol": {
-			"keccak256": "0xe831d7fc7bb0ba9974bc63471492f033733fd357d06e42959739816c796bea33",
+			"keccak256": "0xd2f8f17272d7097dcaa908ceabefc12371ae49282fb5a77807698693dcb3c462",
 			"urls": [
-				"bzzr://c865b611795201b97765378cff26645b2353a5a882ca391c4de0e8f184489afa"
+				"bzzr://6409da91233aa1b2bf10d9807e1fb53d4b83ce1bd341248badf7b4212a16480f"
 			]
 		},
 		"contracts/IExc.sol": {
@@ -168,9 +185,9 @@
 			]
 		},
 		"contracts/Pool.sol": {
-			"keccak256": "0xbb123b3293800c7da95c743de7bde801f0681bd8a8a8867f5570f1c262239cd6",
+			"keccak256": "0x4cb59b5fad9984331a52f7f62390b60c1399011b8177aa0cf67410def7955bdf",
 			"urls": [
-				"bzzr://50a66c4bbb884614af197a1b87fd6ad85a06e4c1645272a6f958c3c2010522c5"
+				"bzzr://0378952d3811e9692e882ae595f08e9259ae8d160a7f72adaf91cf0d6ce262ca"
 			]
 		},
 		"contracts/libraries/GSN/Context.sol": {

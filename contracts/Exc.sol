@@ -208,7 +208,7 @@ contract Exc is IExc{
           uint amtcompleted = amount;
           while(amtcompleted > 0 && i < Orderbook.length) {
               emit Debug("iterating on", i);
-              if (Orderbook[i].side != side && Orderbook[i].ticker == ticker) {
+              if (Orderbook[i].side != side) {
                   Order memory limitOrder = Orderbook[i];
                   bool breaknext = false;
                   uint amt2fil = SafeMath.sub(limitOrder.amount, limitOrder.filled);
@@ -218,17 +218,15 @@ contract Exc is IExc{
                   }
                   uint pineval = SafeMath.mul(amt2fil, limitOrder.price);
                   if(side == Side.BUY){
-                      require(traderBalances[msg.sender][ticker] >= amt2fil);
-                      require(traderBalances[msg.sender][bytes32("PIN")] >= pineval);
-                      //IERC20(tokens[limitOrder.ticker].tokenAddress).transferFrom(limitOrder.trader, msg.sender, amt2fil);
                       traderBalances[msg.sender][ticker] = SafeMath.add(traderBalances[msg.sender][ticker], amt2fil); 
                       traderBalances[limitOrder.trader][limitOrder.ticker] = SafeMath.sub(traderBalances[limitOrder.trader][limitOrder.ticker], amt2fil); 
                       traderBalances[msg.sender][bytes32("PIN")] = SafeMath.sub(traderBalances[msg.sender][bytes32("PIN")], pineval);
                       traderBalances[limitOrder.trader][bytes32("PIN")] = SafeMath.add(traderBalances[limitOrder.trader][bytes32("PIN")], pineval);
+                      emit Debug("ERROR IN BUY COMPONENT OF TEST", i);
                   } else {
-                      require(traderBalances[limitOrder.trader][limitOrder.ticker] >= amt2fil);
-                      require(traderBalances[limitOrder.trader][bytes32("PIN")] >= pineval);
-                      //IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amt2fil);
+                    //   require(traderBalances[limitOrder.trader][limitOrder.ticker] >= amt2fil);
+                    //   require(traderBalances[limitOrder.trader][bytes32("PIN")] >= pineval);
+                    //   IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amt2fil);
                       traderBalances[msg.sender][ticker] = SafeMath.sub(traderBalances[msg.sender][ticker], amt2fil); 
                       traderBalances[limitOrder.trader][limitOrder.ticker] = SafeMath.add(traderBalances[limitOrder.trader][limitOrder.ticker], amt2fil); 
                       traderBalances[limitOrder.trader][bytes32("PIN")] = SafeMath.sub(traderBalances[limitOrder.trader][bytes32("PIN")], pineval);
@@ -246,12 +244,12 @@ contract Exc is IExc{
                       i = i.add(1);
                   }
                   if(breaknext){
-                      
+                    emit Debug("Contract complete on iteration:", i);  
                     break;
                   }
               } else {
-                 i = i.add(1);
-            }
+                  i = i + 1;
+              }
           }
     }
     
