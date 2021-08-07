@@ -289,7 +289,12 @@
 					}
 				],
 				"name": "makeLimitOrder",
-				"outputs": [],
+				"outputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
 				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
@@ -410,15 +415,15 @@
 	},
 	"sources": {
 		"contracts/Exc.sol": {
-			"keccak256": "0xb1d1d03f821eb46b9a9daa00f58b88f43a9ea197df4ac67b4bffc331145dc031",
+			"keccak256": "0xb718d2ff8abcc885194c04ef0dda26628f027e854b9692b1af55ef638d2a9be2",
 			"urls": [
-				"bzzr://27ebab977ebd54d0d8fed995b49593aa6682d30ed560490a6b44c3e90d4a9c2e"
+				"bzzr://e7d9002e1c3be968452c1eff18dd2487d38c5d801efe4016627aab7b79fe83b2"
 			]
 		},
 		"contracts/IExc.sol": {
-			"keccak256": "0xe5d19c3fdea91ae5bdbeaee68b48ea5b5eb213d5f2cab3879d6c638d63ba3099",
+			"keccak256": "0x486dc42edf326d50daac5f0ab9f3e346c9513c5f5a9d6c0bd0b3301b6b4ff600",
 			"urls": [
-				"bzzr://ecd2abe25c8a754cbbc4a1165aaa7cd968f708ff7c0eb04a2de5b8d05775279f"
+				"bzzr://fd3e86aa285fa645d211928ef0d2c7d94a6620848cc048d18711679a4953f0f0"
 			]
 		},
 		"contracts/libraries/GSN/Context.sol": {

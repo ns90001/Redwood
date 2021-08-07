@@ -25,29 +25,28 @@ contract('Factory', (accounts) => {
         fac = await Fac.new()
     });
 
-    it('should create the pair and make 5', async () => {
-        let event = await fac.createPair(
-            pin.address,
-            zrx.address,
-            pin.address,
-            exc.address,
-            PIN,
-            ZRX
-        );
-        let log = event.logs[0];
-        let poolAd = log.args.pair;
-        const pool = await Pool.at(poolAd);
-        const checkMe = await pool.testing(1);
-        assert(checkMe, 5);
+    // it('should create the pair and make 5', async () => {
+    //     let event = await fac.createPair(
+    //         pin.address,
+    //         zrx.address,
+    //         pin.address,
+    //         exc.address,
+    //         PIN,
+    //         ZRX
+    //     );
+    //     let log = event.logs[0];
+    //     let poolAd = log.args.pair;
+    //     const pool = await Pool.at(poolAd);
+    //     const checkMe = await pool.testing(1);
+    //     assert(checkMe, 5);
         
-        pool.deposit(100, 100);
+    //   // pool.deposit(100, 100);
         
-        // trying to withdraw more than we have in the account
-        expectRevert(
-            pool.withdraw(200, 200),
-            "revert"
-        )
-        
+    //     // // trying to withdraw more than we have in the account
+    //     // expectRevert(
+    //     //     pool.withdraw(200, 200),
+    //     //     "revert"
+    //     // )
     
-    });
+    // });
 });

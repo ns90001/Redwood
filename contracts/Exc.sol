@@ -77,6 +77,7 @@ contract Exc is IExc{
           }
           return returnTokens;
     }
+
     
     // todo: implement addToken, which should add the token desired to the exchange by interacting with tokenList and tokens
     function addToken(
@@ -94,6 +95,7 @@ contract Exc is IExc{
         uint amount,
         bytes32 ticker)
         external tokenExists(ticker) {
+            // require(IERC20(tokens[ticker].tokenAddress).balanceOf(msg.sender) >= amount);
             IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, address(this), amount);
             traderBalances[msg.sender][ticker] = SafeMath.add(traderBalances[msg.sender][ticker], amount);
     }
@@ -168,9 +170,10 @@ contract Exc is IExc{
         for(uint i = 0; i<Orderbook.length; i++){
             if(Orderbook[i].id == id && Orderbook[i].trader == msg.sender){
                 deleteNShift(i);
+                return true;
             }
-            break;
         }
+        return false;
     }
     
     function deleteNShift(uint itodel) public {
@@ -198,16 +201,17 @@ contract Exc is IExc{
             
           Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
           curid += 1;
+          uint i = 0;
           uint deleted = 0;
           uint amtcompleted = amount;
-          for (uint i = 0; i < SafeMath.sub(Orderbook.length,deleted);i++) {
+          while(amtcompleted != 0){
               if (Orderbook[i].side != side) {
                   Order memory limitOrder = Orderbook[i];
                   bool breaknext = false;
                   uint amt2fil = SafeMath.sub(limitOrder.amount, limitOrder.filled);
                   if (SafeMath.sub(limitOrder.amount, limitOrder.filled) >= amtcompleted) {
                       breaknext = true;
-                      amt2fil = amount;
+                      amt2fil = amtcompleted;
                   }
                   uint pineval = SafeMath.mul(amt2fil, limitOrder.price);
                   if(side == Side.BUY){
@@ -228,11 +232,11 @@ contract Exc is IExc{
                       traderBalances[msg.sender][bytes32("PIN")] = SafeMath.add(traderBalances[msg.sender][bytes32("PIN")], pineval); 
                   }
                   //Possible source of error:
-                  limitOrder.filled = SafeMath.add(limitOrder.filled, amount);
+                  limitOrder.filled = SafeMath.add(limitOrder.filled, amtcompleted);
                   emit NewTrade(curTradeId, curid, ticker, msg.sender, limitOrder.trader, limitOrder.amount, limitOrder.price, now);
                   curTradeId = curTradeId.add(1);
                   if(SafeMath.sub(limitOrder.amount, limitOrder.filled) <= 0){
-                      amtcompleted = amtcompleted - amt2fil;
+                      amtcompleted = amtcompleted.sub(amt2fil);
                       deleteNShift(i);
                       deleted = SafeMath.add(deleted, 1);
                       i = SafeMath.sub(i, 1);
