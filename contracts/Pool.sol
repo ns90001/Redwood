@@ -52,6 +52,7 @@ contract Pool {
         pineBalance = SafeMath.add(pineBalance, pineAmount);
         tokenBalance = SafeMath.add(tokenBalance, tokenAmount);
         
+        emit Debug("Starting to deposit");
         emit DebugBalances("pineBalance", pineBalance);
         emit DebugBalances("tokenBalance", tokenBalance);
         emit DebugBalances("pineAmount", pineAmount);
@@ -85,6 +86,7 @@ contract Pool {
         pineBalance = Exc(dex).traderBalances(address(this), tokenPT);
         tokenBalance = Exc(dex).traderBalances(address(this), token1T);
         
+        emit Debug("Starting to withdraw");
         emit DebugBalances("pineBalance", pineBalance);
         emit DebugBalances("tokenBalance", tokenBalance);
         emit DebugBalances("pineAmount", pineAmount);

@@ -195,6 +195,8 @@ contract Exc is IExc{
         Side side)
         external tokenExists(ticker) tokenIsNotPine(ticker) {
             
+            emit Debug("started makeMarketOrder", 100);
+            
           if (side == Side.BUY) {
               require(traderBalances[msg.sender][bytes32("PIN")] >= amount);
           } else {
@@ -251,6 +253,7 @@ contract Exc is IExc{
                   i = i + 1;
               }
           }
+          emit Debug("completed makeMarketOrder", 100);
     }
     
     //todo: add modifiers for methods as detailed in handout
