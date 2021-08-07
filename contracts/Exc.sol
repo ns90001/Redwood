@@ -193,15 +193,11 @@ contract Exc is IExc{
         Side side)
         external tokenExists(ticker) tokenIsNotPine(ticker) {
             
-        bool isValid;
-        
-        if (side == Side.BUY) {
-            isValid = traderBalances[msg.sender][bytes32('PIN')] >= amount.mul(price);
-        } else {
-            isValid = traderBalances[msg.sender][ticker] >= amount;
-        }
-        
-        require(isValid == true);
+          if (side == Side.BUY) {
+              require(traderBalances[msg.sender][bytes32("PIN")] >= amount);
+          } else {
+              require(traderBalances[msg.sender][ticker] >= amount);
+          }
             
           Order memory marketOrder = Order(curid, msg.sender, side, ticker, amount, 0, 0, now);
           curid += 1;
