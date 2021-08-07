@@ -76,8 +76,8 @@ contract Pool {
     }
 
     function withdraw(uint tokenAmount, uint pineAmount) external {
-        pineBalance = Exc(dex).traderBalances(address(this),tokenPT);
-        tokenBalance = Exc(dex).traderBalances(address(this),token1T);
+        pineBalance = Exc(dex).traderBalances(address(this), tokenPT);
+        tokenBalance = Exc(dex).traderBalances(address(this), token1T);
             if (pineBalance >= pineAmount && tokenBalance >= tokenAmount) {
                 tokenBalance = SafeMath.sub(pineBalance, pineAmount);
                 tokenBalance = SafeMath.sub(tokenBalance, tokenAmount);
