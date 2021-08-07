@@ -23,6 +23,7 @@ contract('Exc', (accounts) => {
         exc = await Exc.new();
     });
 
+    // testing all functions in Exc.sol
     
     it('testing withdraw and deposit', async () => {
         
@@ -70,10 +71,16 @@ contract('Exc', (accounts) => {
         assert(exc.getOrders(web3.utils.fromAscii("ABC"), SIDE.BUY), 3);
         
         // testing error handling
+        
+        // token does not exist
         expectRevert(
-            exc.makeMarketOrder(web3.utils.fromAscii("ABC"), 10, SIDE.SELL),
+            exc.makeMarketOrder(web3.utils.fromAscii("123"), 10, SIDE.SELL),
             "revert"
         );
+        
+        // test deleteLimitOrder
+        exc.deleteLimitOrder(0, web3.utils.fromAscii("ABC"), SIDE.BUY);
+        assert(exc.getOrders(web3.utils.fromAscii("ABC"), SIDE.BUY), 2);
         
     });
     

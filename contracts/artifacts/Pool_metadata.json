@@ -77,6 +77,34 @@
 				"type": "function"
 			},
 			{
+				"constant": true,
+				"inputs": [],
+				"name": "pineBalance",
+				"outputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"constant": true,
+				"inputs": [],
+				"name": "tokenBalance",
+				"outputs": [
+					{
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"payable": false,
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"constant": false,
 				"inputs": [
 					{
@@ -140,9 +168,9 @@
 			]
 		},
 		"contracts/Pool.sol": {
-			"keccak256": "0x60bf13e0d0f81fd730dea0b46b12834ad32bcc56e678728bcf96497f193fb739",
+			"keccak256": "0xbb123b3293800c7da95c743de7bde801f0681bd8a8a8867f5570f1c262239cd6",
 			"urls": [
-				"bzzr://52bc3ddb3d5fea5858e301901aff5822b3ef6c3d254ae374ff2a01bcef15f335"
+				"bzzr://50a66c4bbb884614af197a1b87fd6ad85a06e4c1645272a6f958c3c2010522c5"
 			]
 		},
 		"contracts/libraries/GSN/Context.sol": {

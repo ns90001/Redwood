@@ -40,6 +40,9 @@ contract('Factory', (accounts) => {
         const checkMe = await pool.testing(1);
         assert(checkMe, 5);
         
+        // testing all functions in Pool.sol
+        
+        // depositing some tokens and pine into the pool
         pool.deposit(100, 100);
         
         // trying to withdraw more than we have in the account
@@ -47,6 +50,22 @@ contract('Factory', (accounts) => {
             pool.withdraw(200, 200),
             "revert"
         )
-    
+        
+        pool.withdraw(50, 50);
+        
+        // verify balances after deposits and withdrawals
+        assert(pool.tokenBalance, 50);
+        assert(pool.pineBalance, 50);
+        
+        // deposit of 0
+        pool.deposit(0, 0);
+        
+        //withdrawal of 0
+        pool.withdraw(0, 0);
+        
+        //verify that balances have not changed
+        assert(pool.tokenBalance, 50);
+        assert(pool.pineBalance, 50);
+       
     });
 });

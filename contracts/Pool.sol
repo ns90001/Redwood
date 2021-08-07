@@ -14,8 +14,8 @@ contract Pool {
     bytes32 private token1T;
     
     // todo: create wallet data structures
-    uint pineBalance = 0;
-    uint tokenBalance = 0;
+    uint public pineBalance = 0;
+    uint public tokenBalance = 0;
     bool hasrun = false;
     uint idbuy = 0;
     uint idsell = 0;
