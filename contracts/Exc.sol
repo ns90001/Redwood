@@ -209,22 +209,22 @@ contract Exc is IExc{
                   Order memory limitOrder = Orderbook[i];
                   bool breaknext = false;
                   uint amt2fil = SafeMath.sub(limitOrder.amount, limitOrder.filled);
-                  if (SafeMath.sub(limitOrder.amount, limitOrder.filled) >= amtcompleted) {
+                  if (amt2fil >= amtcompleted) {
                       breaknext = true;
                       amt2fil = amtcompleted;
                   }
                   uint pineval = SafeMath.mul(amt2fil, limitOrder.price);
                   if(side == Side.BUY){
-                      require(traderBalances[msg.sender][ticker] >= amt2fil);
-                      require(traderBalances[msg.sender][bytes32("PIN")] >= pineval);
+                    //   require(traderBalances[msg.sender][ticker] >= amt2fil);
+                    //   require(traderBalances[msg.sender][bytes32("PIN")] >= pineval);
                       IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amt2fil);
                       traderBalances[msg.sender][ticker] = SafeMath.sub(traderBalances[msg.sender][ticker], amt2fil); 
                       traderBalances[limitOrder.trader][limitOrder.ticker] = SafeMath.add(traderBalances[limitOrder.trader][limitOrder.ticker], amt2fil); 
                       traderBalances[msg.sender][bytes32("PIN")] = SafeMath.sub(traderBalances[msg.sender][bytes32("PIN")], pineval);
                       traderBalances[limitOrder.trader][bytes32("PIN")] = SafeMath.add(traderBalances[msg.sender][bytes32("PIN")], pineval);
                   } else {
-                      require(traderBalances[limitOrder.trader][limitOrder.ticker] >= amt2fil);
-                      require(traderBalances[limitOrder.trader][bytes32("PIN")] >= pineval);
+                    //   require(traderBalances[limitOrder.trader][limitOrder.ticker] >= amt2fil);
+                    //   require(traderBalances[limitOrder.trader][bytes32("PIN")] >= pineval);
                       IERC20(tokens[limitOrder.ticker].tokenAddress).transferFrom(limitOrder.trader, msg.sender, amt2fil);
                       traderBalances[msg.sender][ticker] = SafeMath.add(traderBalances[msg.sender][ticker], amt2fil); 
                       traderBalances[limitOrder.trader][limitOrder.ticker] = SafeMath.sub(traderBalances[limitOrder.trader][limitOrder.ticker], amt2fil); 
