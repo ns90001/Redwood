@@ -93,6 +93,18 @@
 				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"name": "text",
+						"type": "string"
+					}
+				],
+				"name": "Debug",
+				"type": "event"
 			}
 		],
 		"devdoc": {
@@ -116,9 +128,9 @@
 	},
 	"sources": {
 		"contracts/Exc.sol": {
-			"keccak256": "0xb718d2ff8abcc885194c04ef0dda26628f027e854b9692b1af55ef638d2a9be2",
+			"keccak256": "0xe64881ac79674b8a1d4bdcd8ea6e4a8437d1da2913effdc6ebb482e9410571fa",
 			"urls": [
-				"bzzr://e7d9002e1c3be968452c1eff18dd2487d38c5d801efe4016627aab7b79fe83b2"
+				"bzzr://7045bee08fb07610f26b11dc6609443c6e1c6b0c62a2d54b0106451800fac2c5"
 			]
 		},
 		"contracts/IExc.sol": {
@@ -128,9 +140,9 @@
 			]
 		},
 		"contracts/Pool.sol": {
-			"keccak256": "0xee1fcd0a8c4640fe0f5a24d405acaffb02e8537fd20a893df4fda80c797affbc",
+			"keccak256": "0xb5ffca7ab4306bd8660e131475ab5e4a0e27b28d559cbeb23979cb25b6a3cf54",
 			"urls": [
-				"bzzr://9afff776b80a0ff0e3864f40a8b0ef7b606a2cd1515eb848f07540db19e991df"
+				"bzzr://e5c8aa443505410c581a91408cf6e19b28301d118122b4c112a196743a555e51"
 			]
 		},
 		"contracts/libraries/GSN/Context.sol": {

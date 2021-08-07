@@ -44,6 +44,8 @@ contract Exc is IExc{
         uint date
     );
     
+    event Debug(string text, uint idx);
+    
     // todo: implement getOrders, which simply returns the orders for a specific token on a specific side
     function getOrders(
       bytes32 ticker, 
@@ -205,6 +207,7 @@ contract Exc is IExc{
           uint deleted = 0;
           uint amtcompleted = amount;
           while(amtcompleted > 0 && i < Orderbook.length) {
+              emit Debug("iterating on", i);
               if (Orderbook[i].side != side) {
                   Order memory limitOrder = Orderbook[i];
                   bool breaknext = false;
@@ -215,16 +218,16 @@ contract Exc is IExc{
                   }
                   uint pineval = SafeMath.mul(amt2fil, limitOrder.price);
                   if(side == Side.BUY){
-                      require(traderBalances[msg.sender][ticker] >= amt2fil);
-                      require(traderBalances[msg.sender][bytes32("PIN")] >= pineval);
+                    //   require(traderBalances[msg.sender][ticker] >= amt2fil);
+                    //   require(traderBalances[msg.sender][bytes32("PIN")] >= pineval);
                       IERC20(tokens[limitOrder.ticker].tokenAddress).transferFrom(limitOrder.trader, msg.sender, amt2fil);
                       traderBalances[msg.sender][ticker] = SafeMath.add(traderBalances[msg.sender][ticker], amt2fil); 
                       traderBalances[limitOrder.trader][limitOrder.ticker] = SafeMath.sub(traderBalances[limitOrder.trader][limitOrder.ticker], amt2fil); 
                       traderBalances[msg.sender][bytes32("PIN")] = SafeMath.sub(traderBalances[msg.sender][bytes32("PIN")], pineval);
                       traderBalances[limitOrder.trader][bytes32("PIN")] = SafeMath.add(traderBalances[msg.sender][bytes32("PIN")], pineval);
                   } else {
-                      require(traderBalances[limitOrder.trader][limitOrder.ticker] >= amt2fil);
-                      require(traderBalances[limitOrder.trader][bytes32("PIN")] >= pineval);
+                    //   require(traderBalances[limitOrder.trader][limitOrder.ticker] >= amt2fil);
+                    //   require(traderBalances[limitOrder.trader][bytes32("PIN")] >= pineval);
                       IERC20(tokens[ticker].tokenAddress).transferFrom(msg.sender, limitOrder.trader, amt2fil);
                       traderBalances[msg.sender][ticker] = SafeMath.sub(traderBalances[msg.sender][ticker], amt2fil); 
                       traderBalances[limitOrder.trader][limitOrder.ticker] = SafeMath.add(traderBalances[limitOrder.trader][limitOrder.ticker], amt2fil); 

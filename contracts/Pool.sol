@@ -39,6 +39,8 @@ contract Pool {
         IExc(dex).addToken(tokenPT, tokenP);
     }
     
+    event Debug(string text);
+    
     // todo: implement wallet functionality and trading functionality
 
     // todo: implement withdraw and deposit functions so that a single deposit and a single withdraw can unstake
@@ -69,6 +71,7 @@ contract Pool {
             idbuy = IExc(dex).makeLimitOrder(token1T, tokenBalance, aprice, IExc.Side.BUY);
             idsell = IExc(dex).makeLimitOrder(token1T, tokenBalance, aprice, IExc.Side.SELL);
         }
+        emit Debug("deposited!!!");
     }
 
     function withdraw(uint tokenAmount, uint pineAmount) external {
@@ -97,6 +100,7 @@ contract Pool {
                 IERC20(token1).transfer(msg.sender, tokenAmount);
                 IERC20(tokenP).transfer(msg.sender, pineAmount);
             }
+            emit Debug("withdrew!!!");
     }
     
     

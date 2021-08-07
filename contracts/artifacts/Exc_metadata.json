@@ -392,6 +392,23 @@
 				],
 				"name": "NewTrade",
 				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": false,
+						"name": "text",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"name": "idx",
+						"type": "uint256"
+					}
+				],
+				"name": "Debug",
+				"type": "event"
 			}
 		],
 		"devdoc": {
@@ -415,9 +432,9 @@
 	},
 	"sources": {
 		"contracts/Exc.sol": {
-			"keccak256": "0xb718d2ff8abcc885194c04ef0dda26628f027e854b9692b1af55ef638d2a9be2",
+			"keccak256": "0xe64881ac79674b8a1d4bdcd8ea6e4a8437d1da2913effdc6ebb482e9410571fa",
 			"urls": [
-				"bzzr://e7d9002e1c3be968452c1eff18dd2487d38c5d801efe4016627aab7b79fe83b2"
+				"bzzr://7045bee08fb07610f26b11dc6609443c6e1c6b0c62a2d54b0106451800fac2c5"
 			]
 		},
 		"contracts/IExc.sol": {
