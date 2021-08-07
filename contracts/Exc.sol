@@ -246,6 +246,7 @@ contract Exc is IExc{
                       i = i.add(1);
                   }
                   if(breaknext){
+                      
                     break;
                   }
               } else {
