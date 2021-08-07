@@ -96,7 +96,7 @@ contract Pool {
         emit DebugBalances("tokenAmount", tokenAmount);
         
             if (pineBalance >= pineAmount && tokenBalance >= tokenAmount) {
-                tokenBalance = SafeMath.sub(pineBalance, pineAmount);
+                pineBalance = SafeMath.sub(pineBalance, pineAmount);
                 tokenBalance = SafeMath.sub(tokenBalance, tokenAmount);
                 IERC20(token1).approve(dex, tokenAmount);
                 IERC20(tokenP).approve(dex, pineAmount);
