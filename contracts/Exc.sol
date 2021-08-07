@@ -204,7 +204,7 @@ contract Exc is IExc{
           uint i = 0;
           uint deleted = 0;
           uint amtcompleted = amount;
-          while(amtcompleted != 0){
+          while(amtcompleted > 0){
               if (Orderbook[i].side != side) {
                   Order memory limitOrder = Orderbook[i];
                   bool breaknext = false;

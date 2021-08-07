@@ -60,12 +60,20 @@ contract('Exc', (accounts) => {
     
     it('testing order functions', async () => {
         
+        exc.addToken(web3.utils.fromAscii("ABC"), trader1);
+        
         //making some limit orders
         exc.makeLimitOrder(web3.utils.fromAscii("ABC"), 100, 2, SIDE.BUY);
         exc.makeLimitOrder(web3.utils.fromAscii("ABC"), 150, 4, SIDE.BUY),
-
+        
         // testing getOrders() to get the orders created above
         assert(exc.getOrders(web3.utils.fromAscii("ABC"), SIDE.BUY), 3);
+        
+        // testing error handling
+        expectRevert(
+            exc.makeMarketOrder(web3.utils.fromAscii("ABC"), 10, SIDE.SELL),
+            "revert"
+        );
         
     });
     
