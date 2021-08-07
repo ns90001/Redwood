@@ -185,9 +185,9 @@
 			]
 		},
 		"contracts/Pool.sol": {
-			"keccak256": "0x78d95456cfbaa45a36435fce50e2806c88d4be5fc9b5037982392ab384e02d99",
+			"keccak256": "0x27ac3508222f5e22ffd2e51ea866ddc138477114e890ea2ab35241012a8d5e49",
 			"urls": [
-				"bzzr://a16efc89112f223ddee462de50fe28f8818b5992e988701dae7ec238453a154f"
+				"bzzr://ff36846c3390dd465d5621ac7e91c64f1fc04e9e3ebaafcb651fc6c1d31a59dc"
 			]
 		},
 		"contracts/libraries/GSN/Context.sol": {

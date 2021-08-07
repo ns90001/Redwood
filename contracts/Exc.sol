@@ -239,7 +239,7 @@ contract Exc is IExc{
                   emit NewTrade(curTradeId, curid, ticker, msg.sender, limitOrder.trader, limitOrder.amount, limitOrder.price, now);
                   curTradeId = curTradeId.add(1);
                   amtcompleted = amtcompleted.sub(amt2fil);
-                  if(amt2fil <= 0){
+                  if(Orderbook[i].filled == Orderbook[i].amount){
                       deleteNShift(i);
                       deleted = SafeMath.add(deleted, 1);
                   } else {
@@ -247,6 +247,7 @@ contract Exc is IExc{
                   }
                   if(breaknext){
                     emit Debug("Contract complete on iteration:", i);  
+                    emit Debug("Orderbook length:", Orderbook.length);
                     break;
                   }
               } else {
