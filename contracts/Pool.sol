@@ -51,15 +51,16 @@ contract Pool {
         pineBalance = SafeMath.add(pineBalance, pineAmount);
         tokenBalance = SafeMath.add(tokenBalance, tokenAmount);
         
-        IERC20(token1).transferFrom(msg.sender, address(this), tokenAmount);
-        IERC20(tokenP).transferFrom(msg.sender, address(this), pineAmount);
+        // IERC20(token1).transferFrom(msg.sender, address(this), tokenAmount);
+        // IERC20(tokenP).transferFrom(msg.sender, address(this), pineAmount);
         
-        IERC20(token1).approve(dex, tokenAmount);
-        IERC20(tokenP).approve(dex, pineAmount);
-    
         // IExc(dex).getToken(token1T).approve(dex, tokenAmount);
         IExc(dex).deposit(tokenAmount, token1T);
         IExc(dex).deposit(pineAmount, tokenPT);
+        
+        IERC20(token1).approve(dex, tokenAmount);
+        IERC20(tokenP).approve(dex, pineAmount);
+        
         uint aprice = SafeMath.div(pineBalance, tokenBalance);
         if(hasrun == false){
             idbuy = IExc(dex).makeLimitOrder(token1T, tokenBalance, aprice, IExc.Side.BUY);
