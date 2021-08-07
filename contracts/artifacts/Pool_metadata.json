@@ -140,9 +140,9 @@
 			]
 		},
 		"contracts/Pool.sol": {
-			"keccak256": "0x27f711fe8bc23ecc2b9e0336d227be2d37887b65ff1dddb54a2640ab9cfbe60d",
+			"keccak256": "0xd95dabbdcef8b87244e0590f7e511aece2ac59faf02b3378515086b3d9b866f1",
 			"urls": [
-				"bzzr://7b768307cc5d08cfd8ac3a3ae5ad418cba0fc682b7f56fef2b83c4c96376154b"
+				"bzzr://f0d6db2e436b30dfb1df16bec30bed377e627bdde86c0957a7a1c2c573bea9a1"
 			]
 		},
 		"contracts/libraries/GSN/Context.sol": {
